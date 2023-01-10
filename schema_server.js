@@ -1,10 +1,9 @@
 const { join } = require('node:path');
 const { loadSchema } = require('@graphql-tools/load');
 // const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader');
+
 const { addResolversToSchema } = require('@graphql-tools/schema');
 const { createYoga } = require('graphql-yoga');
- 
-// const { loadSchema } = require('@graphql-tools/load');
 const { UrlLoader } = require('@graphql-tools/url-loader');
 const { createServer }  = require('http');
  
