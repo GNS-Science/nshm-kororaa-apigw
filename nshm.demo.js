@@ -32,7 +32,6 @@ const createRemoteSchema = async ({ url, headers, ...rest }) => {
     console.log('response:')
     console.log(resp)
     console.log(resp.data)
-
     return resp
   };
 
@@ -48,11 +47,16 @@ const createRemoteSchema = async ({ url, headers, ...rest }) => {
 
 const localSchema = makeExecutableSchema({
   typeDefs: /* GraphQL */ `
+    interface Node {
+      id: ID!
+    }
+
     type Model {
       version: String
     }
 
     type Query {
+      node(id: ID!): Node
       hello: String
       current_model: Model
     }
@@ -60,8 +64,12 @@ const localSchema = makeExecutableSchema({
   resolvers: {
     Query: {
       hello: () => 'It\'s a Brave New World in Stitch land',
-      current_model: () =>  {return { version: 'NSHM_1.0.0' }}
-    }
+      current_model: () =>  {return { version: 'NSHM_1.0.0' }},
+      node: ( id ) => { id },
+    },
+    Node: {
+      __resolveType: ({ id }) => id.split('_')[0],
+    },
   },
 })
 
@@ -76,13 +84,13 @@ const stitched_schema = async () => {
   }
 
   const kororaaSchema = await createRemoteSchema({
-      url: KORORAA_API,
-      headers: {'X-API-KEY': KORORAA_TOKEN},
-      transforms: [
-        new RenameRootFields((_, fieldName) => `KORORAA_${fieldName}`),
-        new RenameTypes((name) => `KORORAA_${name}`),
-      ]
-    });
+    url: KORORAA_API,
+    headers: {'X-API-KEY': KORORAA_TOKEN},
+    transforms: [
+      new RenameRootFields((_, fieldName) => `KORORAA_${fieldName}`),
+      new RenameTypes((name) => `KORORAA_${name}`),
+    ]
+  });
 
   const toshiSchema =  await createRemoteSchema({
     url: TOSHI_API,
@@ -91,13 +99,13 @@ const stitched_schema = async () => {
       new RenameRootFields((_, fieldName) => `TOSHI_${fieldName}`),
       new RenameTypes((name) => `TOSHI_${name}`),
       ],
-    });
+  });
 
   // console.log('kororaaSchema', kororaaSchema)
 
   const schema = await stitchSchemas({
     // subschemas: handleRelaySubschemas(
-    //   [kororaaSchema, toshiSchema], //, localSubschema],
+    //   [{schema: kororaaSchema }, {schema: toshiSchema}], // {schema: localSubschema } ], //, localSubschema],
     //   id => getTypeNameFromGlobalID(id)
     // ),
     subschemas: [kororaaSchema, toshiSchema, localSubschema],
