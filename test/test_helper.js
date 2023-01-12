@@ -21,55 +21,32 @@ const subschemaConfigs = buildSubschemaConfigs();
 Object.entries(subschemaConfigs).forEach(([name, subschemaConfig]) => {
   const fixtures = fixturesByName[name] || {};
 
-  // if (name === 'toshi') {
+  // CBC: toshi schema needs the mockStore setup, otherwise resolvers fail
+  // still haven't got store resolvers reliably returning complete objects :(
+  const schema = makeExecutableSchema({
+    schemaTransforms: [stitchingDirectivesValidator],
+    typeDefs: printSchemaWithDirectives(subschemaConfig.schema)
+  });
 
-    // CBC: toshi schema needs the mockStore setup, otherwise resolvers fail
-    // still haven't got store resolvers reliably returning complete objects :(
-    const schema = makeExecutableSchema({
-      schemaTransforms: [stitchingDirectivesValidator],
-      typeDefs: printSchemaWithDirectives(subschemaConfig.schema)
-    });
-
-    subschemaConfig.schema = addMocksToSchema({
-      schema,
-      resolvers: fixtures.resolvers(schema),
-      mocks: {
-        String: () => `${name}-value`,
-        ...(fixtures.mocks || {}),
-      }
+  subschemaConfig.schema = addMocksToSchema({
+    schema,
+    resolvers: fixtures.resolvers(schema),
+    mocks: {
+      String: () => `${name}-value`,
+      ...(fixtures.mocks || {}),
+    }
   })
-
-  // } else {
-
-  //   // build all of the base schemas into locally-executable test schemas
-  //   // apply mock service resolvers to give them some simple record fixtures
-  //   const schema = makeExecutableSchema({
-  //     schemaTransforms: [stitchingDirectivesValidator],
-  //     typeDefs: printSchemaWithDirectives(subschemaConfig.schema),
-  //     resolvers: fixtures.resolvers,
-  //   });
-
-  //   // apply mocks to fill in missing values
-  //   // anything without a resolver or fixture data
-  //   // gets filled in with a predictable service-specific scalar
-  //   subschemaConfig.schema = addMocksToSchema({
-  //     preserveResolvers: true,
-  //     schema,
-  //     mocks: {
-  //       String: () => `${name}-value`,
-  //       ...(fixtures.mocks || {}),
-  //     }
-  //   });
-
-  // }
 
   // remove all executors (run everything as a locally-executable schema)
   delete subschemaConfig.executor;
 });
 
+//TODO: here's where mocks should be attached, with the stitched schema, rather than the individual schemas
+
 // Run the gateway builder using the mocked subservices
 // this gives the complete stitched gateway talking to mocked services.
 const mockedGateway = buildGatewaySchema(subschemaConfigs);
+
 
 function queryMockedGateway(query, variables={}) {
   return graphql(mockedGateway, query, {}, variables);

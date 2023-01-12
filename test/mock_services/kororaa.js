@@ -13,7 +13,6 @@ function setupResolvers(schema) {
         return {
           QueryRoot: {
             node: (_, { id }) => resolve_node(store, id),
-            //about: () => 'Korora ',
           }
         }
       }
@@ -22,7 +21,7 @@ function setupResolvers(schema) {
 module.exports = {
     mocks:{
         BigInt: () => 555e6,
-        //String: () => 'Goodness me',
+        // String: () => 'Goodness me',
       },
     resolvers: setupResolvers
 }

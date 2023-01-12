@@ -55,7 +55,7 @@ const { createMockStore } = require('@graphql-tools/mock');
 //    { id:'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', file_size: 300, file_name: "abc.zip"} )
 
 function resolve_node(store, id, ...rest) {
-  // console.log('resolve_node', id)
+  // console.log('toshi.resolve_node', id)
   let n = store.get('ScaledInversionSolution', id)
   // console.log('found', n )
   // CBC: this works...

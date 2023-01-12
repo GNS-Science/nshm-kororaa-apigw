@@ -37,4 +37,45 @@ describe('gateway schema', () => {
     expect(data).toEqual({ KORORAA_about: "kororaa-value" })
   });
 
+
+  test('resolves delegated field on KORORAA', async () => {
+    const query = /* GraphQL */ `
+      query stitching_with_delegated_field {
+        KORORAA_nzshm_model(version: "NSHM_1.0.0") {
+          model {
+            title
+            source_logic_tree {
+              fault_system_branches {
+                short_name
+                long_name
+                branches {
+                  weight
+                  source_solution {
+                    __typename
+                    ... on TOSHI_ScaledInversionSolution {
+                      file_name
+                      md5_digest
+                      file_size
+                      meta {
+                        k
+                        v
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }`
+
+    const { errors, data } = await queryMockedGateway(query);
+    expect(errors).not.toBeDefined();
+    expect(data).toBeDefined();
+    expect(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].weight).toBeDefined()
+    expect(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution).toBeDefined()
+    expect(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution.__typename).toEqual('TOSHI_ScaledInversionSolution')
+    // console.log(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution)
+    })
+
 });
