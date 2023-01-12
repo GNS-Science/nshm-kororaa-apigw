@@ -1,0 +1,273 @@
+schema {
+  query: QueryRoot
+}
+
+type BranchAttributeValue {
+  name: String
+  long_name: String
+  json_value: JSONString
+}
+
+type BranchAttributeValueSpec {
+  name: String
+  long_name: String
+  value_options: JSONString
+}
+
+enum ColourScaleNormalise {
+  LOG
+  LIN
+}
+
+enum ContentFormatEnum {
+  Raw
+  Markdown
+}
+
+enum ContentStatusEnum {
+  Undefined
+  Draft
+  Published
+  Deprecated
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+"""All the info about a given disagg report."""
+type DisaggregationReport {
+  hazard_model: String
+  location: HazardCodedLocation
+  imt: String
+  poe: Float
+  vs30: Int
+  inv_time: Int
+  report_url: String
+}
+
+type DisaggregationReportResult {
+  ok: Boolean
+  reports: [DisaggregationReport]
+}
+
+type FaultSystemLogicTree {
+  short_name: String
+  long_name: String
+  branches: [SourceLogicTreeBranch]
+}
+
+type FaultSystemLogicTreeSpec {
+  short_name: String
+  long_name: String
+  branches: [BranchAttributeValueSpec]
+}
+
+type GeoJsonHazardMap {
+  geojson: JSONString
+  colour_scale: HexRgbValueMapping
+}
+
+type GriddedHazard {
+  grid_id: RegionGrid
+  hazard_model: String
+  imt: String
+  agg: String
+  vs30: Float
+  poe: Float
+
+  """Acceleration values."""
+  values: [Float]
+  hazard_map(color_scale: String = "jet", color_scale_vmax: Float, color_scale_vmin: Float = 0, color_scale_normalise: ColourScaleNormalise, stroke_width: Float, stroke_opacity: Float, fill_opacity: Float): GeoJsonHazardMap
+  grid_locations: [GriddedLocation]
+}
+
+type GriddedHazardResult {
+  gridded_hazard: [GriddedHazard]
+  ok: Boolean
+}
+
+type GriddedLocation {
+  lat: Float
+  lon: Float
+  code: String
+  name: String
+  key: String
+  resolution: Float
+}
+
+type GriddedLocationResult {
+  location: GriddedLocation
+  ok: Boolean
+}
+
+type HazardCodedLocation {
+  lat: Float
+  lon: Float
+  code: String
+  name: String
+  key: String
+}
+
+type HexRgbValueMapping {
+  levels: [Float]
+  hexrgbs: [String]
+}
+
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object."""
+  id: ID!
+}
+
+type NzshmModel {
+  version: String
+  title: String
+  source_logic_tree: SourceLogicTree
+  source_logic_tree_spec: SourceLogicTreeSpec
+}
+
+type NzshmModelResult {
+  model: NzshmModel
+  ok: Boolean
+}
+
+type Person {
+  name: String
+}
+
+enum ProjectAreaEnum {
+  Core
+  GMCM
+  SRM
+}
+
+"""This is the entry point for all graphql query operations"""
+type QueryRoot {
+  node(
+    """The ID of the object"""
+    id: ID!
+  ): Node
+
+  """About this API """
+  about: String
+  nzshm_model(version: String): NzshmModelResult
+  nzshm_models: [NzshmModelResult]
+  disaggregation_reports: DisaggregationReportResult
+  science_reports: ScienceReportResult
+  textual_content(index: String, tags: [String]): TextualContentResult
+  gridded_location(lat: Float, lon: Float, resolution: Float): GriddedLocationResult
+  hazard_curves(hazard_model: String, imts: [String], locs: [String], aggs: [String], vs30s: [Int], resolution: Float = 0.1): ToshiHazardCurveResult
+  gridded_hazard(grid_id: RegionGrid, hazard_model_id: String, imt: String, loc: String, agg: String, vs30: Int, poe: Float): GriddedHazardResult
+}
+
+"""An enumeration."""
+enum RegionGrid {
+  NZ_0_1_NB_1_0
+  NZ_0_1_NB_1_1
+  NZ_0_2_NB_1_1
+  WLG_0_01_nb_1_1
+  WLG_0_05_nb_1_1
+}
+
+enum ReportStatusEnum {
+  Undefined
+  Review
+  Published
+}
+
+"""NSHM Science report publication details."""
+type ScienceReport {
+  title: String
+  topic: String
+  filename: String
+  area: ProjectAreaEnum
+  status: ReportStatusEnum
+
+  """Internal notes, not for UI."""
+  notes: String
+
+  """publication date"""
+  publication_date: DateTime
+  report_number: String
+  lead_author: Person
+  reviewers: [Person]
+  bibliographic_ref: String
+}
+
+type ScienceReportResult {
+  ok: Boolean
+  reports: [ScienceReport]
+}
+
+type SourceLogicTree {
+  fault_system_branches: [FaultSystemLogicTree]
+}
+
+type SourceLogicTreeBranch {
+  weight: Float
+  onfault_nrml_id: ID
+  distributed_nrml_id: ID
+  inversion_solution_id: ID
+  inversion_solution_type: String
+  values: [BranchAttributeValue]
+}
+
+type SourceLogicTreeSpec {
+  fault_system_branches: [FaultSystemLogicTreeSpec]
+}
+
+"""NSHM textual content details."""
+type TextualContent {
+  index: String
+  content_type: ContentFormatEnum
+  author: String
+  tags: [String]
+  status: ContentStatusEnum
+
+  """created date"""
+  created: DateTime
+  text: String
+}
+
+type TextualContentResult {
+  ok: Boolean
+  content: [TextualContent]
+}
+
+"""Represents one set of level and values for a hazard curve."""
+type ToshiHazardCurve {
+  """IMT levels."""
+  levels: [Float]
+
+  """Hazard values."""
+  values: [Float]
+}
+
+type ToshiHazardCurveResult {
+  ok: Boolean
+  locations: [GriddedLocation]
+  curves: [ToshiHazardResult]
+}
+
+"""All the info about a given curve."""
+type ToshiHazardResult {
+  hazard_model: String
+  loc: String
+  imt: String
+  agg: String
+  vs30: Float
+  curve: ToshiHazardCurve
+}
+
