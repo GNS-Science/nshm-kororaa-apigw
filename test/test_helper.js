@@ -32,21 +32,24 @@ Object.entries(subschemaConfigs).forEach(([name, subschemaConfig]) => {
     });
 
     const store = createMockStore({ schema })
+    //
     // store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
     //    { id:'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', file_size: 300, file_name: "abc.zip"} )
 
     function resolve_node(id, ...rest) {
       // console.log('resolve_node', id)
       let n = store.get('ScaledInversionSolution', id)
-      // console.log('found', n)
+      // console.log('found', n )
+      // CBC: this works...
+      n.file_size = 677
+      n.file_name = 'holas'
+
       return n
     }
 
-    //hacky test ....
     subschemaConfig.schema = addMocksToSchema({
       schema,
       resolvers: store => {
-        // const getName = () => Promise.resolve('Vlad')
         return {
           QueryRoot: {
             node: (_, { id }) => resolve_node(id)

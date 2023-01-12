@@ -35,8 +35,8 @@ describe('gateway schema', () => {
       //     v: 'SUBDUCTION'
       //   }
       // ],
-      file_name: 'Goodness me',
-      file_size: 555e6
+      file_name: 'holas',
+      file_size: 677
     }
     });
   });
