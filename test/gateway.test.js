@@ -12,7 +12,7 @@ describe('gateway schema', () => {
     }
   }`;
 
-  test('resolves toshi node (prefixed)', async () => {
+  test('resolves TOSHI_node', async () => {
     const { data } = await queryMockedGateway(TOSHI_QUERY_0);
 
     expect(data).toEqual({ TOSHI_node: {
@@ -23,6 +23,18 @@ describe('gateway schema', () => {
       file_url: "toshi-value"
     }
     });
+  });
+
+  test('resolves KORORAA_about', async () => {
+
+    const query = `query {
+      KORORAA_about
+    }`;
+    const { errors, data } = await queryMockedGateway(query);
+    expect(errors).not.toBeDefined();
+    expect(data).toBeDefined();
+
+    expect(data).toEqual({ KORORAA_about: "kororaa-value" })
   });
 
 });
