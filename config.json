@@ -1,13 +1,12 @@
 {
   "services": {
     "toshi": {
-      "url": "http://localhost:4001/graphql"
+      "url": "http://localhost:4001/graphql",
+      "prefix": "TOSHI"
     },
-    "reviews": {
-      "url": "http://localhost:4002/graphql"
-    },
-    "users": {
-      "url": "http://localhost:4003/graphql"
+    "kororaa": {
+      "url": "http://localhost:4002/graphql",
+      "prefix": "KORORAA"
     }
   }
 }

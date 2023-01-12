@@ -111,7 +111,7 @@ describe('toshi with custom mocks', () => {
    })
 
 
-  test.skip('mocked store via query with our Node object', async () => {
+  test.skip('nodes query (List) ', async () => {
     const query = /* GraphQL */ `
       query NodesQuery {
         nodes(id_in: ["U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2"]) {
