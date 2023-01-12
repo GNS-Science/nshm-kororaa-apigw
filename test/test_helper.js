@@ -5,7 +5,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 const { stitchingDirectives } = require('@graphql-tools/stitching-directives');
 const { stitchingDirectivesValidator } = stitchingDirectives();
 const { buildSubschemaConfigs, buildGatewaySchema } = require('../lib/schema_builder');
-const config = require('../config.json');
+const { config } = require('./gateway_test_config');
 
 // Setup a mapping of test fixtures by service name
 const fixturesByName = {
