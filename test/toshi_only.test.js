@@ -2,6 +2,7 @@ const { addMocksToSchema, createMockStore } = require('@graphql-tools/mock');
 const readFileSync = require('../lib/read_file_sync.js');
 const { graphql, buildSchema } = require('graphql');
 
+const SCHEMA_PATH = `../remote_schemas/toshi.schema.graphql`
 
 async function setStore (store) {
     await store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', {file_name: "abc.zip"})
@@ -9,7 +10,7 @@ async function setStore (store) {
 
 describe('toshi mocked store', () => {
 
-  const schema = buildSchema(readFileSync(__dirname, `./remote_schemas/toshi.schema.graphql`))
+  const schema = buildSchema(readFileSync(__dirname, SCHEMA_PATH))
   const store = createMockStore({ schema })
   // const schemaWithMocks = addMocksToSchema({ schema, store })
   setStore(store)
@@ -53,7 +54,7 @@ describe('toshi mocked store', () => {
 })
 
 describe('toshi with custom mocks', () => {
-  const schema = buildSchema(readFileSync(__dirname, `./remote_schemas/toshi.schema.graphql`))
+  const schema = buildSchema(readFileSync(__dirname, SCHEMA_PATH))
   const store = createMockStore({ schema })
   setStore(store)
 
@@ -146,7 +147,7 @@ describe('toshi with custom mocks', () => {
 
 
 describe('toshi with custom mocks 2', () => {
-  const schema = buildSchema(readFileSync(__dirname, `./remote_schemas/toshi.schema.graphql`))
+  const schema = buildSchema(readFileSync(__dirname, SCHEMA_PATH))
   const store = createMockStore({ schema })
   setStore(store)
 
