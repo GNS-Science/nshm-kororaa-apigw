@@ -13,7 +13,7 @@ const fixturesByName = {
   kororaa: require('./mock_services/kororaa')
   };
 
-// Get the actual subschemas built for the production app:
+// Get the subschemas with a test configuration:
 const subschemaConfigs = buildSubschemaConfigs(config);
 
 // Reconfigure the subschema configurations for testing...
@@ -22,8 +22,6 @@ const subschemaConfigs = buildSubschemaConfigs(config);
 Object.entries(subschemaConfigs).forEach(([name, subschemaConfig]) => {
   const fixtures = fixturesByName[name] || {};
 
-  // CBC: toshi schema needs the mockStore setup, otherwise resolvers fail
-  // still haven't got store resolvers reliably returning complete objects :(
   const schema = makeExecutableSchema({
     schemaTransforms: [stitchingDirectivesValidator],
     typeDefs: printSchemaWithDirectives(subschemaConfig.schema)
@@ -42,12 +40,9 @@ Object.entries(subschemaConfigs).forEach(([name, subschemaConfig]) => {
   delete subschemaConfig.executor;
 });
 
-//TODO: here's where mocks should be attached, with the stitched schema, rather than the individual schemas
-
 // Run the gateway builder using the mocked subservices
 // this gives the complete stitched gateway talking to mocked services.
 const mockedGateway = buildGatewaySchema(subschemaConfigs);
-
 
 function queryMockedGateway(query, variables={}) {
   return graphql(mockedGateway, query, {}, variables);
