@@ -5,6 +5,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 const { stitchingDirectives } = require('@graphql-tools/stitching-directives');
 const { stitchingDirectivesValidator } = stitchingDirectives();
 const { buildSubschemaConfigs, buildGatewaySchema } = require('../lib/schema_builder');
+const config = require('../config.json');
 
 // Setup a mapping of test fixtures by service name
 const fixturesByName = {
@@ -13,7 +14,7 @@ const fixturesByName = {
   };
 
 // Get the actual subschemas built for the production app:
-const subschemaConfigs = buildSubschemaConfigs();
+const subschemaConfigs = buildSubschemaConfigs(config);
 
 // Reconfigure the subschema configurations for testing...
 // makes all subschemas locally-executable,
