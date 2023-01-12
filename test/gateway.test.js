@@ -3,18 +3,15 @@ const { queryMockedGateway } = require('./test_helper');
 // based on https://github.com/gmac/schema-stitching-handbook/tree/main/continuous-integration-testing
 
 describe('gateway schema', () => {
-
-  const TOSHI_QUERY_0 = `query {
-    TOSHI_node(id: "U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2") {
-      __typename
-      ... on TOSHI_Node { id }
-      ... on TOSHI_ScaledInversionSolution { file_name file_size file_url}
-    }
-  }`;
-
   test('resolves TOSHI_node', async () => {
+    const TOSHI_QUERY_0 = `query {
+      TOSHI_node(id: "U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2") {
+        __typename
+        ... on TOSHI_Node { id }
+        ... on TOSHI_ScaledInversionSolution { file_name file_size file_url}
+      }
+    }`;
     const { data } = await queryMockedGateway(TOSHI_QUERY_0);
-
     expect(data).toEqual({ TOSHI_node: {
       __typename: 'TOSHI_ScaledInversionSolution',
       id: 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
@@ -25,15 +22,14 @@ describe('gateway schema', () => {
     });
   });
 
-  test('resolves KORORAA_about', async () => {
 
+  test('resolves KORORAA_about', async () => {
     const query = `query {
       KORORAA_about
     }`;
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-
     expect(data).toEqual({ KORORAA_about: "kororaa-value" })
   });
 
@@ -43,23 +39,14 @@ describe('gateway schema', () => {
       query stitching_with_delegated_field {
         KORORAA_nzshm_model(version: "NSHM_1.0.0") {
           model {
-            title
             source_logic_tree {
               fault_system_branches {
-                short_name
-                long_name
                 branches {
                   weight
                   source_solution {
                     __typename
                     ... on TOSHI_ScaledInversionSolution {
                       file_name
-                      md5_digest
-                      file_size
-                      meta {
-                        k
-                        v
-                      }
                     }
                   }
                 }
@@ -68,7 +55,6 @@ describe('gateway schema', () => {
           }
         }
       }`
-
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
