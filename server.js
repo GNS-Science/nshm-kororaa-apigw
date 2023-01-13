@@ -10,7 +10,7 @@ const stitched_schema = buildGatewaySchema(subschemaConfigs);
 
 const yoga = createYoga({
    schema: stitched_schema,
-   graphiql: { endpoint: '/dev/graphql' }
+   graphiql: { endpoint: `/${process.env.DEPLOYMENT_STAGE}/graphql` }
 })
 
 const app = express();
