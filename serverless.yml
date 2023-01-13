@@ -1,0 +1,44 @@
+	
+# serverless.yml
+service: nshm-kororaa-api
+ 
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: ap-southeast-2
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    # httpsProtocol: "dev-certs"
+    httpPort: 4100
+    stageVariables:
+      foo: "bar"
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-2
+  apiGateway:
+    apiKeys:
+      - name: NSHMTempApiKey-${self:custom.stage}
+        description: Api key until we have an auth function # Optional
+
+functions:
+  app:
+    description: The graphql API of ${self:service} in ${self:custom.stage}
+    handler: server.handler
+    memorySize: 2096 # optional, in MB, default is 1024
+    timeout: 20 # optional, in seconds, default is 6
+    events:
+      - http:
+          path: /graphql
+          method: OPTIONS
+      - http:
+          path: /graphql
+          method: POST
+          private: true
+      - http:
+          path: /graphql
+          method: GET
+          private: true
