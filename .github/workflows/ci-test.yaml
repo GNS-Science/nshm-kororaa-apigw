@@ -1,0 +1,32 @@
+name: CI tests
+on:
+  push:
+    branches:
+      - main
+      - deploy-test
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Node Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://npm.pkg.github.com/
+          scope: '@gns-science'
+
+      - name: NPM test
+        env:
+          CI: true
+        run: |
+          npm install
+          npm test
