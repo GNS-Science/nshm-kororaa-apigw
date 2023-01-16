@@ -13,9 +13,9 @@ describe('gateway schema', () => {
       }
     }`;
     const { errors, data } = await queryMockedGateway(QUERY_0);
-    console.log(errors)
+    // console.log(errors)
     expect(errors).not.toBeDefined();
-    console.log(errors)
+    // console.log(errors)
     expect(data).toBeDefined();
 
     expect(data).toEqual({ node: {
