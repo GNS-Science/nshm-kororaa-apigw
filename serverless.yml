@@ -1,4 +1,3 @@
-	
 # serverless.yml
 service: nshm-kororaa-api
  
@@ -10,6 +9,8 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-plugin-warmup
+  - serverless-domain-manager
 
 custom:
   # DRY constants: define all compound/generated names in one place
@@ -27,19 +28,34 @@ custom:
   stack_name: ${self:custom.app_acronym}-${self:custom.stage}
   region: ${opt:region, self:provider.region}
   deletion_policy: Delete
-  # presigned URL TTL
-  url_default_ttl: 60
 
   serverless-offline:
-    # httpsProtocol: "dev-certs"
     httpPort: 4100
-    stageVariables:
-      foo: "bar"
 
-  apiGateway:
-    apiKeys:
-      - name: NSHMTempApiKey-${self:custom.stage}
-        description: Api key until we have an auth function # Optional
+  # serverless-domain-manager settings
+  domains:
+    prod: nshm-api.gns.cri.nz
+    test: nshm-api-test.gns.cri.nz
+    dev: nshm-api-dev.gns.cri.nz
+
+  customDomain:
+    domainName: ${self:custom.domains.${self:custom.stage}}
+    basePath: 'k-api' # This will be prefixed to all routes
+    stage: ${self:custom.stage}
+    createRoute53Record: false
+
+  # apiGateway:
+  #   apiKeys:
+  #     - name: KORORAA_APP_API_TempApiKey-${self:custom.stage}
+  #       description: Api key until we have an auth function # Optional
+
+  # Lambda warmer settings see https://www.serverless.com/plugins/serverless-plugin-warmup
+  warmup:
+    littleWarmer:
+      enabled: true
+      events:
+        - schedule: rate(5 minutes)
+      concurrency: 1
 
 functions:
   app:
@@ -49,17 +65,18 @@ functions:
     timeout: 20 # optional, in seconds, default is 6
     events:
       - http:
-          path: /graphql
+          path: "/graphql"
           method: OPTIONS
       - http:
-          path: /graphql
+          path: "/graphql"
           method: POST
-          private: true
+          # private: true
       - http:
-          path: /graphql
+          path: "/graphql"
           method: GET
-          private: true
+          # private: true
     environment:
+      SERVICE_NAME: ${self:service}
       STACK_NAME: ${self:custom.stack_name}
       REGION: ${self:custom.region}
       DEPLOYMENT_STAGE: ${self:custom.stage}
