@@ -60,19 +60,19 @@ custom:
 functions:
   app:
     description: The graphql API of ${self:service} in ${self:custom.stage}
-    handler: server.handler
+    handler: handler.handler
     memorySize: 2096 # optional, in MB, default is 1024
     timeout: 20 # optional, in seconds, default is 6
     events:
       - http:
-          path: "/graphql"
+          path: "/{any+}"
           method: OPTIONS
       - http:
-          path: "/graphql"
+          path: "/{any+}"
           method: POST
           # private: true
       - http:
-          path: "/graphql"
+          path: "/{any+}"
           method: GET
           # private: true
     environment:

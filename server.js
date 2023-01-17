@@ -10,7 +10,7 @@ const stitched_schema = buildGatewaySchema(subschemaConfigs);
 
 const yoga = createYoga({
    schema: stitched_schema,
-   // graphqlEndpoint: `/${process.env.DEPLOYMENT_STAGE}/graphql`,
+   // graphqlEndpoint: `/graphql`,
    graphiql: { endpoint: `/${process.env.DEPLOYMENT_STAGE}/graphql` },
    // landingPage: false
 })
@@ -18,6 +18,13 @@ const yoga = createYoga({
 const app = express();
 
 app.use('/graphql', yoga);
+// app.use('/kororaa-app-api/graphql', yoga);
+
+app.get('/', function (req, res) {
+
+  res.send('Hello World!')
+
+})
 
 // app.listen(process.env.PORT || 4002, () => {
 //   console.log("Server started!");
