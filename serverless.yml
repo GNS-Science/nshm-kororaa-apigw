@@ -40,7 +40,7 @@ custom:
 
   customDomain:
     domainName: ${self:custom.domains.${self:custom.stage}}
-    basePath: 'k-api' # This will be prefixed to all routes
+    basePath: 'kororaa-app-api' # This will be prefixed to all routes
     stage: ${self:custom.stage}
     createRoute53Record: false
 
