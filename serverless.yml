@@ -65,17 +65,18 @@ functions:
     timeout: 20 # optional, in seconds, default is 6
     events:
       - http:
-          path: "/{any+}"
+          path: /${self:custom.customDomain.basePath}/{any+}
           method: OPTIONS
       - http:
-          path: "/{any+}"
+          path: /${self:custom.customDomain.basePath}/{any+}
           method: POST
           # private: true
       - http:
-          path: "/{any+}"
+          path: /${self:custom.customDomain.basePath}/{any+}
           method: GET
           # private: true
     environment:
+      BASE_PATH: ${self:custom.customDomain.basePath}
       SERVICE_NAME: ${self:service}
       STACK_NAME: ${self:custom.stack_name}
       REGION: ${self:custom.region}
