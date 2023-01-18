@@ -1,5 +1,5 @@
 # serverless.yml
-service: nshm-kororaa-api
+service: nshm-kororaa-apigw
  
 provider:
   name: aws
@@ -7,6 +7,10 @@ provider:
   stage: dev
   region: ap-southeast-2
 
+  apiGateway:
+    apiKeys:
+      - name: KORORAA_APIGW_TempApiKey-${self:custom.stage}
+        description: Api key until we have an auth function # Optional
 plugins:
   - serverless-offline
   - serverless-plugin-warmup
@@ -44,11 +48,6 @@ custom:
     stage: ${self:custom.stage}
     createRoute53Record: false
 
-  # apiGateway:
-  #   apiKeys:
-  #     - name: KORORAA_APP_API_TempApiKey-${self:custom.stage}
-  #       description: Api key until we have an auth function # Optional
-
   # Lambda warmer settings see https://www.serverless.com/plugins/serverless-plugin-warmup
   warmup:
     littleWarmer:
@@ -65,16 +64,16 @@ functions:
     timeout: 20 # optional, in seconds, default is 6
     events:
       - http:
-          path: /${self:custom.customDomain.basePath}/{any+}
+          path: /{any+}
           method: OPTIONS
       - http:
-          path: /${self:custom.customDomain.basePath}/{any+}
+          path: /{any+}
           method: POST
-          # private: true
+          private: true
       - http:
-          path: /${self:custom.customDomain.basePath}/{any+}
+          path: /{any+}
           method: GET
-          # private: true
+          private: true
     environment:
       BASE_PATH: ${self:custom.customDomain.basePath}
       SERVICE_NAME: ${self:service}
