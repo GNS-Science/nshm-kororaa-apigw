@@ -11,6 +11,11 @@ module.exports = {
         "url": "http://localhost:4002/graphql",
         "key": "nonce",
         "prefix": null
+      },
+      "solvis": {
+        "url": "http://localhost:4003/graphql",
+        "key": "scones",
+        "prefix": "SOLVIS"
       }
     }
   }

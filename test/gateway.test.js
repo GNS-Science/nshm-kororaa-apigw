@@ -40,6 +40,40 @@ describe('gateway schema', () => {
   });
 
 
+  test('resolves SOLVIS about', async () => {
+    const query = `query {
+      SOLVIS_about
+    }`;
+    const { errors, data } = await queryMockedGateway(query);
+    expect(errors).not.toBeDefined();
+    expect(data).toBeDefined();
+    expect(data).toEqual({ SOLVIS_about: "solvis-value" })
+  });
+
+  test('resolves SOLVIS about', async () => {
+    const query = `query {
+      SOLVIS_analyse_solution (
+        input:{
+          solution_id:"U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTIwNzIy"
+          location_codes: ["WLG", "LVN"]
+          radius_km: 30
+          minimum_mag:8.2
+        }) {
+        analysis {
+          geojson
+          solution_id
+        }
+      }
+    }`;
+    const { errors, data } = await queryMockedGateway(query);
+    expect(errors).not.toBeDefined();
+    expect(data).toBeDefined();
+    expect(data.SOLVIS_analyse_solution).toBeDefined()
+    expect(data.SOLVIS_analyse_solution.analysis).toBeDefined()
+    expect(data.SOLVIS_analyse_solution.analysis.geojson).toEqual("JuicyJson")
+
+  });
+
   test('resolves delegated field on KORORAA.nzshm_model', async () => {
     const query = /* GraphQL */ `
       query stitching_with_delegated_field {
