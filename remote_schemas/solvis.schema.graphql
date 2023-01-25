@@ -7,13 +7,54 @@ type FilterInversionSolution {
 }
 
 """
+Defines styling arguments for geojson features,
+ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
+"""
+input GeojsonAreaStyleArguments {
+  """
+  stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
+  """
+  stroke_color: String
+
+  """a number between 0 and 20."""
+  stroke_width: Int
+
+  """a number between 0 and 1.0"""
+  stroke_opacity: Float
+
+  """
+  fill colour as Hex code ("#cc0000") or HTML color names ("royalblue") )
+  """
+  fill_color: String = "green"
+
+  """0-1.0"""
+  fill_opacity: Float = 1
+}
+
+"""
+Defines styling arguments for geojson features,
+
+ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
+"""
+input GeojsonLineStyleArguments {
+  """
+  stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
+  """
+  stroke_color: String
+
+  """a number between 0 and 20."""
+  stroke_width: Int
+
+  """a number between 0 and 1.0"""
+  stroke_opacity: Float
+}
+
+"""
 Represents the internal details of a given solution or filtered solution
 """
 type InversionSolutionAnalysis {
   solution_id: ID
-  fault_sections: [InversionSolutionFaultSection]
-  ruptures: [InversionSolutionRupture]
-  geojson: JSONString
+  fault_sections_geojson: JSONString
   location_geojson: JSONString
 }
 
@@ -30,30 +71,31 @@ input InversionSolutionAnalysisArguments {
   """The rupture/location intersection radius in km"""
   radius_km: Int
 
-  """Constrain to ruptures having a annual rate above the value supplied."""
+  """
+  Constrain to fault_sections having a annual rate above the value supplied.
+  """
   minimum_rate: Float
 
-  """Constrain to ruptures having a annual rate below the value supplied."""
+  """
+  Constrain to fault_sections having a annual rate below the value supplied.
+  """
   maximum_rate: Float
 
-  """Constrain to ruptures having a magnitude above the value supplied."""
+  """
+  Constrain to fault_sections having a magnitude above the value supplied.
+  """
   minimum_mag: Float
 
-  """Constrain to ruptures having a magnitude below the value supplied."""
+  """
+  Constrain to fault_sections having a magnitude below the value supplied.
+  """
   maximum_mag: Float
-}
 
-type InversionSolutionFaultSection {
-  """Unique ID of the fault section eg WHV1"""
-  fault_id: String
-}
+  """feature style for rupture trace geojson."""
+  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 
-type InversionSolutionRupture {
-  """Unique ID of the rupture within this solution"""
-  fault_id: Int
-
-  """rupture magnitude"""
-  magnitude: Float
+  """feature style for location polygons."""
+  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
 }
 
 """

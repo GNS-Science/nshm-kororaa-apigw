@@ -60,7 +60,7 @@ describe('gateway schema', () => {
           minimum_mag:8.2
         }) {
         analysis {
-          geojson
+          fault_sections_geojson
           solution_id
         }
       }
@@ -70,7 +70,7 @@ describe('gateway schema', () => {
     expect(data).toBeDefined();
     expect(data.SOLVIS_analyse_solution).toBeDefined()
     expect(data.SOLVIS_analyse_solution.analysis).toBeDefined()
-    expect(data.SOLVIS_analyse_solution.analysis.geojson).toEqual("JuicyJson")
+    expect(data.SOLVIS_analyse_solution.analysis.fault_sections_geojson).toEqual("JuicyJson")
 
   });
 
