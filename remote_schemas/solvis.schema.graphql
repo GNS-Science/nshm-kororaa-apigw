@@ -63,6 +63,31 @@ schema (one of the key benefits of GraphQL).
 """
 scalar JSONString
 
+type Location {
+  """unique location code."""
+  code: String
+
+  """location name."""
+  name: String
+
+  """location latitude."""
+  latitude: Float
+
+  """location longitude"""
+  longitude: Float
+}
+
+type LocationList {
+  """The unique location_list_id"""
+  list_id: String
+
+  """list of location codes."""
+  location_codes: [String]
+
+  """the locations in this list."""
+  locations: [Location]
+}
+
 """An object with an ID"""
 interface Node {
   """The ID of the object."""
@@ -79,5 +104,40 @@ type QueryRoot {
   """About this Solvis API """
   about: String
   analyse_solution(input: InversionSolutionAnalysisArguments!): FilterInversionSolution
+
+  """Return ad single radii_set for the id passed in"""
+  get_radii_set(
+    """the integer ID for the desired radii_set"""
+    radii_set_id: Int!
+  ): RadiiSet
+
+  """Return all the available radii_set"""
+  get_radii_sets: [RadiiSet]
+
+  """Return a single location."""
+  get_location(
+    """the location code of the desired location"""
+    location_code: String!
+  ): Location
+
+  """Return all the available locations"""
+  get_locations: [Location]
+
+  """Return a single location list."""
+  get_location_list(
+    """the id of the desired location_list"""
+    list_id: String!
+  ): LocationList
+
+  """Return all the available location lists"""
+  get_location_lists: [LocationList]
+}
+
+type RadiiSet {
+  """The unique radii_set_id"""
+  radii_set_id: Int
+
+  """list of dimension in metres defined by the radii set."""
+  radii: [Int]
 }
 
