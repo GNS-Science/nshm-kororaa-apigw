@@ -2,6 +2,76 @@ schema {
   query: QueryRoot
 }
 
+"""
+Represents the internal details of a given composite solution or filtered solution
+"""
+type CompositeSolutionAnalysis {
+  model_id: ID
+  fault_system_ruptures: [FaultSystemRuptures]
+  location_geojson: JSONString
+  fault_system_geojson: [FaultSystemGeojson]
+}
+
+"""Defines filter arguments for Inversions analysis"""
+input CompositeSolutionAnalysisArguments {
+  """The ID of the InversionSolution"""
+  model_id: ID!
+
+  """One or more fault systems to consider from [`HIK`, `PUY`, `CRU`]"""
+  fault_systems: [String]!
+
+  """
+  Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
+  """
+  location_codes: [String] = []
+
+  """The rupture/location intersection radius in km"""
+  radius_km: Int
+
+  """
+  Constrain to fault_sections having a annual rate above the value supplied.
+  """
+  minimum_rate: Float
+
+  """
+  Constrain to fault_sections having a annual rate below the value supplied.
+  """
+  maximum_rate: Float
+
+  """
+  Constrain to fault_sections having a magnitude above the value supplied.
+  """
+  minimum_mag: Float
+
+  """
+  Constrain to fault_sections having a magnitude below the value supplied.
+  """
+  maximum_mag: Float
+
+  """feature style for rupture trace geojson."""
+  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
+
+  """feature style for location polygons."""
+  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
+}
+
+type FaultSystemGeojson {
+  """Unique ID of the fault system e.g. `PUY`"""
+  fault_system: String
+  fault_traces: JSONString
+  fault_surfaces: JSONString
+}
+
+type FaultSystemRuptures {
+  """Unique ID of the fault system e.g. PUY"""
+  fault_system: String
+  rupture_ids: [Int]
+}
+
+type FilterCompositeSolution {
+  analysis: CompositeSolutionAnalysis
+}
+
 type FilterInversionSolution {
   analysis: InversionSolutionAnalysis
 }
@@ -66,7 +136,7 @@ input InversionSolutionAnalysisArguments {
   """
   Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
   """
-  location_codes: [String]
+  location_codes: [String] = []
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
@@ -147,6 +217,7 @@ type QueryRoot {
   """About this Solvis API """
   about: String
   analyse_solution(input: InversionSolutionAnalysisArguments!): FilterInversionSolution
+  analyse_composite_solution(input: CompositeSolutionAnalysisArguments!): FilterCompositeSolution
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
