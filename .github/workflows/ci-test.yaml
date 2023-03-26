@@ -2,6 +2,7 @@ name: CI Pull request run tests
 on:
   pull_request:
     branches: [main, deploy-test]
+  workflow_call:
 
 jobs:
   run-tests:
