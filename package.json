@@ -30,7 +30,9 @@
   "main": "handler.mjs",
   "scripts": {
     "start": "node server.js",
-    "test": "jest test"
+    "test": "jest test",
+    "deploy": "serverless deploy --stage ${STAGE}",
+    "sls_doctor": "serverless doctor"
   },
   "author": "",
   "license": "AGPL3"
