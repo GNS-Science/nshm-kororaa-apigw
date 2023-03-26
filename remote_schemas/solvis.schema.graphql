@@ -1,0 +1,257 @@
+schema {
+  query: QueryRoot
+}
+
+"""
+Represents the internal details of a given composite solution or filtered solution
+"""
+type CompositeSolutionAnalysis {
+  model_id: ID
+  fault_system_ruptures: [FaultSystemRuptures]
+  location_geojson: JSONString
+  fault_system_geojson: [FaultSystemGeojson]
+}
+
+"""Defines filter arguments for Inversions analysis"""
+input CompositeSolutionAnalysisArguments {
+  """The ID of the InversionSolution"""
+  model_id: ID!
+
+  """One or more fault systems to consider from [`HIK`, `PUY`, `CRU`]"""
+  fault_systems: [String]!
+
+  """
+  Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
+  """
+  location_codes: [String] = []
+
+  """The rupture/location intersection radius in km"""
+  radius_km: Int
+
+  """
+  Constrain to fault_sections having a annual rate above the value supplied.
+  """
+  minimum_rate: Float
+
+  """
+  Constrain to fault_sections having a annual rate below the value supplied.
+  """
+  maximum_rate: Float
+
+  """
+  Constrain to fault_sections having a magnitude above the value supplied.
+  """
+  minimum_mag: Float
+
+  """
+  Constrain to fault_sections having a magnitude below the value supplied.
+  """
+  maximum_mag: Float
+
+  """feature style for rupture trace geojson."""
+  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
+
+  """feature style for location polygons."""
+  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
+}
+
+type FaultSystemGeojson {
+  """Unique ID of the fault system e.g. `PUY`"""
+  fault_system: String
+  fault_traces: JSONString
+  fault_surfaces: JSONString
+}
+
+type FaultSystemRuptures {
+  """Unique ID of the fault system e.g. PUY"""
+  fault_system: String
+  rupture_ids: [Int]
+}
+
+type FilterCompositeSolution {
+  analysis: CompositeSolutionAnalysis
+}
+
+type FilterInversionSolution {
+  analysis: InversionSolutionAnalysis
+}
+
+"""
+Defines styling arguments for geojson features,
+ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
+"""
+input GeojsonAreaStyleArguments {
+  """
+  stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
+  """
+  stroke_color: String
+
+  """a number between 0 and 20."""
+  stroke_width: Int
+
+  """a number between 0 and 1.0"""
+  stroke_opacity: Float
+
+  """
+  fill colour as Hex code ("#cc0000") or HTML color names ("royalblue") )
+  """
+  fill_color: String = "green"
+
+  """0-1.0"""
+  fill_opacity: Float = 1
+}
+
+"""
+Defines styling arguments for geojson features,
+
+ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
+"""
+input GeojsonLineStyleArguments {
+  """
+  stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
+  """
+  stroke_color: String
+
+  """a number between 0 and 20."""
+  stroke_width: Int
+
+  """a number between 0 and 1.0"""
+  stroke_opacity: Float
+}
+
+"""
+Represents the internal details of a given solution or filtered solution
+"""
+type InversionSolutionAnalysis {
+  solution_id: ID
+  fault_sections_geojson: JSONString
+  location_geojson: JSONString
+}
+
+"""Defines filter arguments for Inversions analysis"""
+input InversionSolutionAnalysisArguments {
+  """The ID of the InversionSolution"""
+  solution_id: ID!
+
+  """
+  Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
+  """
+  location_codes: [String] = []
+
+  """The rupture/location intersection radius in km"""
+  radius_km: Int
+
+  """
+  Constrain to fault_sections having a annual rate above the value supplied.
+  """
+  minimum_rate: Float
+
+  """
+  Constrain to fault_sections having a annual rate below the value supplied.
+  """
+  maximum_rate: Float
+
+  """
+  Constrain to fault_sections having a magnitude above the value supplied.
+  """
+  minimum_mag: Float
+
+  """
+  Constrain to fault_sections having a magnitude below the value supplied.
+  """
+  maximum_mag: Float
+
+  """feature style for rupture trace geojson."""
+  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
+
+  """feature style for location polygons."""
+  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
+}
+
+"""
+Allows use of a JSON String for input / output from the GraphQL schema.
+
+Use of this type is *not recommended* as you lose the benefits of having a defined, static
+schema (one of the key benefits of GraphQL).
+"""
+scalar JSONString
+
+type Location {
+  """unique location code."""
+  code: String
+
+  """location name."""
+  name: String
+
+  """location latitude."""
+  latitude: Float
+
+  """location longitude"""
+  longitude: Float
+}
+
+type LocationList {
+  """The unique location_list_id"""
+  list_id: String
+
+  """list of location codes."""
+  location_codes: [String]
+
+  """the locations in this list."""
+  locations: [Location]
+}
+
+"""An object with an ID"""
+interface Node {
+  """The ID of the object."""
+  id: ID!
+}
+
+"""This is the entry point for solvis graphql query operations"""
+type QueryRoot {
+  node(
+    """The ID of the object"""
+    id: ID!
+  ): Node
+
+  """About this Solvis API """
+  about: String
+  analyse_solution(input: InversionSolutionAnalysisArguments!): FilterInversionSolution
+  analyse_composite_solution(input: CompositeSolutionAnalysisArguments!): FilterCompositeSolution
+
+  """Return ad single radii_set for the id passed in"""
+  get_radii_set(
+    """the integer ID for the desired radii_set"""
+    radii_set_id: Int!
+  ): RadiiSet
+
+  """Return all the available radii_set"""
+  get_radii_sets: [RadiiSet]
+
+  """Return a single location."""
+  get_location(
+    """the location code of the desired location"""
+    location_code: String!
+  ): Location
+
+  """Return all the available locations"""
+  get_locations: [Location]
+
+  """Return a single location list."""
+  get_location_list(
+    """the id of the desired location_list"""
+    list_id: String!
+  ): LocationList
+
+  """Return all the available location lists"""
+  get_location_lists: [LocationList]
+}
+
+type RadiiSet {
+  """The unique radii_set_id"""
+  radii_set_id: Int
+
+  """list of dimension in metres defined by the radii set."""
+  radii: [Int]
+}
+

@@ -3,14 +3,19 @@ module.exports = {
   config: {
     "services": {
       "toshi": {
-        "url": process.env.NZSHM_TOSHI_GRAPHQL_ENDPOINT,
-        "key": process.env.NZSHM_TOSHI_GRAPHQL_API_KEY,
-        "prefix": "TOSHI"
+        "url": process.env.NZSHM22_TOSHI_API_URL,
+        "key": process.env.NZSHM22_TOSHI_API_KEY,
+        "prefix": null
       },
       "kororaa": {
-        "url": process.env.NZSHM_KORORAA_GRAPHQL_ENDPOINT,
-        "key": process.env.NZSHM_KORORAA_GRAPHQL_API_KEY,
-        "prefix": "KORORAA"
+        "url": process.env.NZSHM22_KORORAA_API_URL,
+        "key": process.env.NZSHM22_KORORAA_API_KEY,
+        "prefix": null
+      },
+      "solvis": {
+        "url": process.env.NZSHM22_SOLVIS_API_URL,
+        "key": process.env.NZSHM22_SOLVIS_API_KEY,
+        "prefix": "SOLVIS"
       }
     }
   }
