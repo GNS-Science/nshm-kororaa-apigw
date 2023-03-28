@@ -2,20 +2,43 @@ schema {
   query: QueryRoot
 }
 
+type CompositeRuptureDetail implements Node {
+  """The ID of the object."""
+  id: ID!
+  model_id: String
+
+  """Unique ID of the fault system e.g. `PUY`"""
+  fault_system: String
+  rupture_index: Int
+  fault_traces: JSONString
+  fault_surfaces: JSONString
+}
+
+input CompositeRuptureDetailArguments {
+  model_id: String
+
+  """Unique ID of the fault system e.g. `PUY`"""
+  fault_system: String
+  rupture_index: Int
+
+  """feature style for rupture trace geojson."""
+  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
+}
+
 """
 Represents the internal details of a given composite solution or filtered solution
 """
 type CompositeSolutionAnalysis {
-  model_id: ID
+  model_id: String
   fault_system_ruptures: [FaultSystemRuptures]
   location_geojson: JSONString
-  fault_system_geojson: [FaultSystemGeojson]
+  fault_system_summaries: [FaultSystemSummary]
 }
 
 """Defines filter arguments for Inversions analysis"""
 input CompositeSolutionAnalysisArguments {
-  """The ID of the InversionSolution"""
-  model_id: ID!
+  """The ID of NSHM model"""
+  model_id: String!
 
   """One or more fault systems to consider from [`HIK`, `PUY`, `CRU`]"""
   fault_systems: [String]!
@@ -55,17 +78,22 @@ input CompositeSolutionAnalysisArguments {
   location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
 }
 
-type FaultSystemGeojson {
+type FaultSystemRuptures {
+  model_id: String
+
+  """Unique ID of the fault system e.g. PUY"""
+  fault_system: String
+  rupture_ids: [Int]
+  ruptures(before: String, after: String, first: Int, last: Int): RuptureDetailConnection
+}
+
+type FaultSystemSummary {
+  model_id: String
+
   """Unique ID of the fault system e.g. `PUY`"""
   fault_system: String
   fault_traces: JSONString
   fault_surfaces: JSONString
-}
-
-type FaultSystemRuptures {
-  """Unique ID of the fault system e.g. PUY"""
-  fault_system: String
-  rupture_ids: [Int]
 }
 
 type FilterCompositeSolution {
@@ -207,6 +235,23 @@ interface Node {
   id: ID!
 }
 
+"""
+The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.
+"""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
 """This is the entry point for solvis graphql query operations"""
 type QueryRoot {
   node(
@@ -218,6 +263,7 @@ type QueryRoot {
   about: String
   analyse_solution(input: InversionSolutionAnalysisArguments!): FilterInversionSolution
   analyse_composite_solution(input: CompositeSolutionAnalysisArguments!): FilterCompositeSolution
+  composite_rupture_detail(input: CompositeRuptureDetailArguments!): CompositeRuptureDetail
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
@@ -253,5 +299,23 @@ type RadiiSet {
 
   """list of dimension in metres defined by the radii set."""
   radii: [Int]
+}
+
+type RuptureDetailConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [RuptureDetailEdge]!
+  total_count: Int
+}
+
+"""A Relay edge containing a `RuptureDetail` and its cursor."""
+type RuptureDetailEdge {
+  """The item at the end of the edge"""
+  node: CompositeRuptureDetail
+
+  """A cursor for use in pagination"""
+  cursor: String!
 }
 
