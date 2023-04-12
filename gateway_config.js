@@ -5,12 +5,12 @@ module.exports = {
       "toshi": {
         "url": process.env.NZSHM22_TOSHI_API_URL,
         "key": process.env.NZSHM22_TOSHI_API_KEY,
-        "prefix": null
+        "prefix": "TOSHI"
       },
       "kororaa": {
         "url": process.env.NZSHM22_KORORAA_API_URL,
         "key": process.env.NZSHM22_KORORAA_API_KEY,
-        "prefix": null
+        "prefix": "KORORAA"
       },
       "solvis": {
         "url": process.env.NZSHM22_SOLVIS_API_URL,

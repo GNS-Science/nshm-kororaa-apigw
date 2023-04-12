@@ -1,6 +1,8 @@
 # serverless.yml
 service: nshm-kororaa-apigw
  
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs18.x
