@@ -52,10 +52,10 @@ describe('gateway schema', () => {
 
   test('resolves SOLVIS about', async () => {
     const query = `query {
-      SOLVIS_analyse_solution (
-        input:{
+      SOLVIS_inversion_solution (
+        filter:{
           solution_id:"U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTIwNzIy"
-          location_codes: ["WLG", "LVN"]
+          location_ids: ["WLG", "LVN"]
           radius_km: 30
           minimum_mag:8.2
         }) {
@@ -68,9 +68,9 @@ describe('gateway schema', () => {
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data.SOLVIS_analyse_solution).toBeDefined()
-    expect(data.SOLVIS_analyse_solution.analysis).toBeDefined()
-    expect(data.SOLVIS_analyse_solution.analysis.fault_sections_geojson).toEqual("JuicyJson")
+    expect(data.SOLVIS_inversion_solution).toBeDefined()
+    expect(data.SOLVIS_inversion_solution.analysis).toBeDefined()
+    expect(data.SOLVIS_inversion_solution.analysis.fault_sections_geojson).toEqual("JuicyJson")
 
   });
 

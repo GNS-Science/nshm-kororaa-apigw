@@ -10,11 +10,36 @@ type CompositeRuptureDetail implements Node {
   """Unique ID of the fault system e.g. `PUY`"""
   fault_system: String
   rupture_index: Int
+  magnitude: Float
+
+  """Rupture length in kilometres^2"""
+  area: Float
+
+  """Rupture length in kilometres)"""
+  length: Float
+
+  """average rake angle (degrees) of the entire rupture"""
+  rake_mean: Float
+
+  """mean of `rate` * `branch weight` of the contributing solutions"""
+  rate_weighted_mean: Float
+
+  """maximum rate from contributing solutions"""
+  rate_max: Float
+
+  """minimum rate from contributing solutions"""
+  rate_min: Float
+
+  """count of model solutions that include this rupture"""
+  rate_count: Int
   fault_traces: JSONString
-  fault_surfaces: JSONString
+  fault_surfaces(
+    """feature style for rupture trace geojson."""
+    style: GeojsonAreaStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
+  ): JSONString
 }
 
-input CompositeRuptureDetailArguments {
+input CompositeRuptureDetailArgs {
   model_id: String
 
   """Unique ID of the fault system e.g. `PUY`"""
@@ -25,28 +50,27 @@ input CompositeRuptureDetailArguments {
   fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 }
 
-"""
-Represents the internal details of a given composite solution or filtered solution
-"""
-type CompositeSolutionAnalysis {
+type CompositeSolution {
   model_id: String
-  fault_system_ruptures: [FaultSystemRuptures]
-  location_geojson: JSONString
-  fault_system_summaries: [FaultSystemSummary]
+  fault_systems: [String]
+}
+
+type FilterInversionSolution {
+  analysis: InversionSolutionAnalysis
 }
 
 """Defines filter arguments for Inversions analysis"""
-input CompositeSolutionAnalysisArguments {
+input FilterRupturesArgs {
   """The ID of NSHM model"""
   model_id: String!
 
   """One or more fault systems to consider from [`HIK`, `PUY`, `CRU`]"""
-  fault_systems: [String]!
+  fault_system: String!
 
   """
-  Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
+  Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
   """
-  location_codes: [String] = []
+  location_ids: [String] = []
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
@@ -74,34 +98,8 @@ input CompositeSolutionAnalysisArguments {
   """feature style for rupture trace geojson."""
   fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 
-  """feature style for location polygons."""
-  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
-}
-
-type FaultSystemRuptures {
-  model_id: String
-
-  """Unique ID of the fault system e.g. PUY"""
-  fault_system: String
-  rupture_ids: [Int]
-  ruptures(before: String, after: String, first: Int, last: Int): RuptureDetailConnection
-}
-
-type FaultSystemSummary {
-  model_id: String
-
-  """Unique ID of the fault system e.g. `PUY`"""
-  fault_system: String
-  fault_traces: JSONString
-  fault_surfaces: JSONString
-}
-
-type FilterCompositeSolution {
-  analysis: CompositeSolutionAnalysis
-}
-
-type FilterInversionSolution {
-  analysis: InversionSolutionAnalysis
+  """feature style for rupture surface geojson."""
+  fault_surface_style: GeojsonAreaStyleArguments
 }
 
 """
@@ -164,7 +162,7 @@ input InversionSolutionAnalysisArguments {
   """
   Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
   """
-  location_codes: [String] = []
+  location_ids: [String] = []
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
@@ -205,8 +203,8 @@ schema (one of the key benefits of GraphQL).
 scalar JSONString
 
 type Location {
-  """unique location code."""
-  code: String
+  """unique location location_id."""
+  location_id: String
 
   """location name."""
   name: String
@@ -218,12 +216,47 @@ type Location {
   longitude: Float
 }
 
+"""Represents the internal details of a given location"""
+type LocationDetail implements Node {
+  """The ID of the object."""
+  id: ID!
+  location_id: String
+  name: String
+  latitude: Float
+  longitude: Float
+  radius_geojson(
+    """polygon radius (km)."""
+    radius_km: Int!
+
+    """feature style for the geojson."""
+    style: GeojsonAreaStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
+  ): JSONString
+}
+
+type LocationDetailConnection {
+  """Pagination data for this connection."""
+  pageInfo: PageInfo!
+
+  """Contains the nodes in this connection."""
+  edges: [LocationDetailEdge]!
+  total_count: Int
+}
+
+"""A Relay edge containing a `LocationDetail` and its cursor."""
+type LocationDetailEdge {
+  """The item at the end of the edge"""
+  node: LocationDetail
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
 type LocationList {
   """The unique location_list_id"""
   list_id: String
 
   """list of location codes."""
-  location_codes: [String]
+  location_ids: [String]
 
   """the locations in this list."""
   locations: [Location]
@@ -261,9 +294,17 @@ type QueryRoot {
 
   """About this Solvis API """
   about: String
-  analyse_solution(input: InversionSolutionAnalysisArguments!): FilterInversionSolution
-  analyse_composite_solution(input: CompositeSolutionAnalysisArguments!): FilterCompositeSolution
-  composite_rupture_detail(input: CompositeRuptureDetailArguments!): CompositeRuptureDetail
+  inversion_solution(filter: InversionSolutionAnalysisArguments!): FilterInversionSolution
+  locations_by_id(
+    """list of nzshm_common.location_ids e.g. `["WLG","PMR","ZQN"]`"""
+    location_ids: [String]!
+  ): LocationDetailConnection
+  composite_solution(
+    """A valid NSHM model id e.g. `NSHM_1.0.0`"""
+    model_id: String!
+  ): CompositeSolution
+  composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
+  filter_ruptures(filter: FilterRupturesArgs!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
@@ -277,7 +318,7 @@ type QueryRoot {
   """Return a single location."""
   get_location(
     """the location code of the desired location"""
-    location_code: String!
+    location_id: String!
   ): Location
 
   """Return all the available locations"""
@@ -317,5 +358,10 @@ type RuptureDetailEdge {
 
   """A cursor for use in pagination"""
   cursor: String!
+}
+
+input SimpleSortRupturesArgs {
+  attribute: String
+  ascending: Boolean
 }
 
