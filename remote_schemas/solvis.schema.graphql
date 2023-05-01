@@ -50,6 +50,29 @@ input CompositeRuptureDetailArgs {
   fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 }
 
+type CompositeRuptureSections {
+  model_id: String
+  rupture_count: Int
+  section_count: Int
+
+  """maximum magnitude from contributing solutions"""
+  max_magnitude: Float
+
+  """minimum magnitude from contributing solutions"""
+  min_magnitude: Float
+
+  """
+  maximum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions
+  """
+  max_participation_rate: Float
+
+  """
+  minimum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions
+  """
+  min_participation_rate: Float
+  fault_surfaces: JSONString
+}
+
 type CompositeSolution {
   model_id: String
   fault_systems: [String]
@@ -64,7 +87,7 @@ input FilterRupturesArgs {
   """The ID of NSHM model"""
   model_id: String!
 
-  """One or more fault systems to consider from [`HIK`, `PUY`, `CRU`]"""
+  """The fault systems [`HIK`, `PUY`, `CRU`]"""
   fault_system: String!
 
   """
@@ -305,6 +328,7 @@ type QueryRoot {
   ): CompositeSolution
   composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
   filter_ruptures(filter: FilterRupturesArgs!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
+  filter_rupture_sections(filter: FilterRupturesArgs!): CompositeRuptureSections
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
