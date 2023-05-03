@@ -2,6 +2,26 @@ schema {
   query: QueryRoot
 }
 
+type ColorScale {
+  name: String
+  min_value: Float
+  max_value: Float
+  normalisation: ColourScaleNormaliseEnum
+  color_map: HexRgbValueMapping
+}
+
+input ColorScaleArgs {
+  name: String!
+  min_value: Float
+  max_value: Float
+  normalisation: ColourScaleNormaliseEnum
+}
+
+enum ColourScaleNormaliseEnum {
+  LOG
+  LIN
+}
+
 type CompositeRuptureDetail implements Node {
   """The ID of the object."""
   id: ID!
@@ -71,6 +91,7 @@ type CompositeRuptureSections {
   """
   min_participation_rate: Float
   fault_surfaces: JSONString
+  color_scale(name: String, normalization: ColourScaleNormaliseEnum, min_value: Float, max_value: Float): ColorScale
 }
 
 type CompositeSolution {
@@ -166,6 +187,11 @@ input GeojsonLineStyleArguments {
 
   """a number between 0 and 1.0"""
   stroke_opacity: Float
+}
+
+type HexRgbValueMapping {
+  levels: [Float]
+  hexrgbs: [String]
 }
 
 """
@@ -310,6 +336,7 @@ type PageInfo {
 
 """This is the entry point for solvis graphql query operations"""
 type QueryRoot {
+  color_scale(name: String, min_value: Float, max_value: Float, normalization: ColourScaleNormaliseEnum): ColorScale
   node(
     """The ID of the object"""
     id: ID!
@@ -328,7 +355,13 @@ type QueryRoot {
   ): CompositeSolution
   composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
   filter_ruptures(filter: FilterRupturesArgs!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
-  filter_rupture_sections(filter: FilterRupturesArgs!): CompositeRuptureSections
+  filter_rupture_sections(
+    filter: FilterRupturesArgs!
+    color_scale: ColorScaleArgs
+
+    """feature style for rupture surface geojson."""
+    surface_style: GeojsonAreaStyleArguments
+  ): CompositeRuptureSections
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
