@@ -74,6 +74,7 @@ type CompositeRuptureSections {
   model_id: String
   rupture_count: Int
   section_count: Int
+  filter_arguments: FilterRupturesArgs
 
   """maximum magnitude from contributing solutions"""
   max_magnitude: Float
@@ -91,6 +92,9 @@ type CompositeRuptureSections {
   """
   min_participation_rate: Float
   fault_surfaces: JSONString
+
+  """magnitude frequency distribution of the filtered ruptures."""
+  mfd_histogram: [MagFreqDist]
   color_scale(name: String, normalization: ColourScaleNormaliseEnum, min_value: Float, max_value: Float): ColorScale
 }
 
@@ -103,8 +107,45 @@ type FilterInversionSolution {
   analysis: InversionSolutionAnalysis
 }
 
-"""Defines filter arguments for Inversions analysis"""
-input FilterRupturesArgs {
+"""Arguments FilterRupturesArgs"""
+type FilterRupturesArgs {
+  """The ID of NSHM model"""
+  model_id: String!
+
+  """The fault systems [`HIK`, `PUY`, `CRU`]"""
+  fault_system: String!
+
+  """
+  Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
+  """
+  location_ids: [String]
+
+  """The rupture/location intersection radius in km"""
+  radius_km: Int
+
+  """
+  Constrain to fault_sections having a annual rate above the value supplied.
+  """
+  minimum_rate: Float
+
+  """
+  Constrain to fault_sections having a annual rate below the value supplied.
+  """
+  maximum_rate: Float
+
+  """
+  Constrain to fault_sections having a magnitude above the value supplied.
+  """
+  minimum_mag: Float
+
+  """
+  Constrain to fault_sections having a magnitude below the value supplied.
+  """
+  maximum_mag: Float
+}
+
+"""Arguments passed as FilterRupturesArgs"""
+input FilterRupturesArgsInput {
   """The ID of NSHM model"""
   model_id: String!
 
@@ -138,12 +179,6 @@ input FilterRupturesArgs {
   Constrain to fault_sections having a magnitude below the value supplied.
   """
   maximum_mag: Float
-
-  """feature style for rupture trace geojson."""
-  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
-
-  """feature style for rupture surface geojson."""
-  fault_surface_style: GeojsonAreaStyleArguments
 }
 
 """
@@ -311,6 +346,12 @@ type LocationList {
   locations: [Location]
 }
 
+type MagFreqDist {
+  bin_center: Float
+  rate: Float
+  cumulative_rate: Float
+}
+
 """An object with an ID"""
 interface Node {
   """The ID of the object."""
@@ -354,9 +395,9 @@ type QueryRoot {
     model_id: String!
   ): CompositeSolution
   composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
-  filter_ruptures(filter: FilterRupturesArgs!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
+  filter_ruptures(filter: FilterRupturesArgsInput!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
   filter_rupture_sections(
-    filter: FilterRupturesArgs!
+    filter: FilterRupturesArgsInput!
     color_scale: ColorScaleArgs
 
     """feature style for rupture surface geojson."""
