@@ -21,3 +21,5 @@ npm test -- --verbose --coverage
 ### Run service locally
 
 `npx serverless offline`
+
+then browse to http://localhost:4100/dev/kororaa-app-api/graphql
