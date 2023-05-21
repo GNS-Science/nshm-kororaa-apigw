@@ -10,8 +10,9 @@ type ColorScale {
   color_map: HexRgbValueMapping
 }
 
-input ColorScaleArgs {
-  name: String!
+"""Arguments passed as ColorScaleArgsInput"""
+input ColorScaleArgsInput {
+  name: String = "inferno"
   min_value: Float
   max_value: Float
   normalisation: ColourScaleNormaliseEnum
@@ -55,7 +56,7 @@ type CompositeRuptureDetail implements Node {
   fault_traces: JSONString
   fault_surfaces(
     """feature style for rupture trace geojson."""
-    style: GeojsonAreaStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
+    style: GeojsonAreaStyleArgumentsInput = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
   ): JSONString
 }
 
@@ -65,35 +66,43 @@ input CompositeRuptureDetailArgs {
   """Unique ID of the fault system e.g. `PUY`"""
   fault_system: String
   rupture_index: Int
-
-  """feature style for rupture trace geojson."""
-  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 }
 
+"""
+A collection of ruptures and their fault sections that have a geojson represention.  They also
+have a set of attributes derived from the composite solution e.g. rate_weighted_mean etc
+
+Key attributes:
+ - filter_arguments contains the filter criteria used to find the ruptures.
+ - fault_surfaces is a geojson feature file based on the geometry from the undelying rutpure set.
+   It may by styled by some attribute of the faults section.
+ - mfd_histogram is the MFD table summarise the set of ruptures.
+"""
 type CompositeRuptureSections {
   model_id: String
   rupture_count: Int
   section_count: Int
   filter_arguments: FilterRupturesArgs
 
-  """maximum magnitude from contributing solutions"""
+  """maximum rupture magnitude from the contributing solutions."""
   max_magnitude: Float
 
-  """minimum magnitude from contributing solutions"""
+  """minimum rupture magnitude from the contributing solutions."""
   min_magnitude: Float
 
   """
-  maximum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions
+  maximum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions.
   """
   max_participation_rate: Float
 
   """
-  minimum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions
+  minimum section participation rate (sum of rate_weighted_mean.sum) over the contributing solutions.
   """
   min_participation_rate: Float
-  fault_surfaces: JSONString
+  fault_surfaces(color_scale: ColorScaleArgsInput, style: GeojsonAreaStyleArgumentsInput): JSONString
+  fault_traces(color_scale: ColorScaleArgsInput, style: GeojsonLineStyleArgumentsInput): JSONString
 
-  """magnitude frequency distribution of the filtered ruptures."""
+  """magnitude frequency distribution of the filtered rutpures."""
   mfd_histogram: [MagFreqDist]
   color_scale(name: String, normalization: ColourScaleNormaliseEnum, min_value: Float, max_value: Float): ColorScale
 }
@@ -181,21 +190,18 @@ input FilterRupturesArgsInput {
   maximum_mag: Float
 }
 
-"""
-Defines styling arguments for geojson features,
-ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
-"""
-input GeojsonAreaStyleArguments {
+"""Defines styling arguments for geojson features"""
+input GeojsonAreaStyleArgumentsInput {
   """
   stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
   """
-  stroke_color: String
+  stroke_color: String = "green"
 
   """a number between 0 and 20."""
-  stroke_width: Int
+  stroke_width: Int = 1
 
   """a number between 0 and 1.0"""
-  stroke_opacity: Float
+  stroke_opacity: Float = 1
 
   """
   fill colour as Hex code ("#cc0000") or HTML color names ("royalblue") )
@@ -206,22 +212,18 @@ input GeojsonAreaStyleArguments {
   fill_opacity: Float = 1
 }
 
-"""
-Defines styling arguments for geojson features,
-
-ref https://academy.datawrapper.de/article/177-how-to-style-your-markers-before-importing-them-to-datawrapper
-"""
-input GeojsonLineStyleArguments {
+"""Defines styling arguments for geojson features"""
+input GeojsonLineStyleArgumentsInput {
   """
   stroke (line) colour as hex code ("#cc0000") or HTML color name ("royalblue")
   """
-  stroke_color: String
+  stroke_color: String = "green"
 
   """a number between 0 and 20."""
-  stroke_width: Int
+  stroke_width: Int = 1
 
   """a number between 0 and 1.0"""
-  stroke_opacity: Float
+  stroke_opacity: Float = 1
 }
 
 type HexRgbValueMapping {
@@ -272,10 +274,10 @@ input InversionSolutionAnalysisArguments {
   maximum_mag: Float
 
   """feature style for rupture trace geojson."""
-  fault_trace_style: GeojsonLineStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
+  fault_trace_style: GeojsonLineStyleArgumentsInput = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
 
   """feature style for location polygons."""
-  location_area_style: GeojsonAreaStyleArguments = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
+  location_area_style: GeojsonAreaStyleArgumentsInput = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
 }
 
 """
@@ -313,7 +315,7 @@ type LocationDetail implements Node {
     radius_km: Int!
 
     """feature style for the geojson."""
-    style: GeojsonAreaStyleArguments = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
+    style: GeojsonAreaStyleArgumentsInput = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1, fill_color: "green", fill_opacity: 1}
   ): JSONString
 }
 
@@ -396,13 +398,7 @@ type QueryRoot {
   ): CompositeSolution
   composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
   filter_ruptures(filter: FilterRupturesArgsInput!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
-  filter_rupture_sections(
-    filter: FilterRupturesArgsInput!
-    color_scale: ColorScaleArgs
-
-    """feature style for rupture surface geojson."""
-    surface_style: GeojsonAreaStyleArguments
-  ): CompositeRuptureSections
+  filter_rupture_sections(filter: FilterRupturesArgsInput!): CompositeRuptureSections
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
