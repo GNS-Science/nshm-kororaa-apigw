@@ -125,6 +125,11 @@ type FilterRupturesArgs {
   fault_system: String!
 
   """
+  The name of parent fault may be supplied to restrict to ruptures that include parent fault sections
+  """
+  corupture_parent_fault_name: String
+
+  """
   Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
   """
   location_ids: [String]
@@ -160,6 +165,11 @@ input FilterRupturesArgsInput {
 
   """The fault systems [`HIK`, `PUY`, `CRU`]"""
   fault_system: String!
+
+  """
+  The name of parent fault may be supplied to restrict to ruptures that include parent fault sections
+  """
+  corupture_parent_fault_name: String
 
   """
   Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
