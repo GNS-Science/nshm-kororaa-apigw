@@ -22,7 +22,7 @@ jobs:
       - name: Node Setup
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
           registry-url: https://npm.pkg.github.com/
           scope: '@gns-science'
 
