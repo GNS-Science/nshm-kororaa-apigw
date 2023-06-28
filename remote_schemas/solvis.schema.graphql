@@ -409,6 +409,13 @@ type QueryRoot {
   composite_rupture_detail(filter: CompositeRuptureDetailArgs!): CompositeRuptureDetail
   filter_ruptures(filter: FilterRupturesArgsInput!, sortby: [SimpleSortRupturesArgs] = [], before: String, after: String, first: Int, last: Int): RuptureDetailConnection
   filter_rupture_sections(filter: FilterRupturesArgsInput!): CompositeRuptureSections
+  get_parent_fault_names(
+    """A valid NSHM model id e.g. `NSHM_1.0.0`"""
+    model_id: String!
+
+    """A valid FSS name CRU, PUY, HIK"""
+    fault_system: String!
+  ): [String]
 
   """Return ad single radii_set for the id passed in"""
   get_radii_set(
