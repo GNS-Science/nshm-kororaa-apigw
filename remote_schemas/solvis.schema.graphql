@@ -125,9 +125,9 @@ type FilterRupturesArgs {
   fault_system: String!
 
   """
-  The name of parent fault may be supplied to restrict to ruptures that include parent fault sections
+  Optional list of parent fault names. Result will only include ruptures that include parent fault sections
   """
-  corupture_parent_fault_name: String
+  corupture_fault_names: [String]
 
   """
   Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
@@ -167,9 +167,9 @@ input FilterRupturesArgsInput {
   fault_system: String!
 
   """
-  The name of parent fault may be supplied to restrict to ruptures that include parent fault sections
+  Optional list of parent fault names. Result will only include ruptures that include parent fault sections
   """
-  corupture_parent_fault_name: String
+  corupture_fault_names: [String] = []
 
   """
   Optional list of locations ids for proximity filtering e.g. `WLG,PMR,ZQN`
