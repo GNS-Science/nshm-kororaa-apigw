@@ -136,6 +136,7 @@ type FilterRupturesArgs {
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
+  filter_set_options: FilterSetLogicOptions
 
   """
   Constrain to fault_sections having a annual rate above the value supplied.
@@ -178,6 +179,7 @@ input FilterRupturesArgsInput {
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
+  filter_set_options: FilterSetLogicOptionsInput
 
   """
   Constrain to fault_sections having a annual rate above the value supplied.
@@ -198,6 +200,18 @@ input FilterRupturesArgsInput {
   Constrain to fault_sections having a magnitude below the value supplied.
   """
   maximum_mag: Float
+}
+
+type FilterSetLogicOptions {
+  multiple_locations: SetOperationEnum
+  multiple_faults: SetOperationEnum
+  locations_and_faults: SetOperationEnum
+}
+
+input FilterSetLogicOptionsInput {
+  multiple_locations: SetOperationEnum
+  multiple_faults: SetOperationEnum
+  locations_and_faults: SetOperationEnum
 }
 
 """Defines styling arguments for geojson features"""
@@ -469,6 +483,12 @@ type RuptureDetailEdge {
 
   """A cursor for use in pagination"""
   cursor: String!
+}
+
+enum SetOperationEnum {
+  UNION
+  INTERSECTION
+  DIFFERENCE
 }
 
 input SimpleSortRupturesArgs {
