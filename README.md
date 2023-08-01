@@ -4,3 +4,22 @@
 
 # nshm-kororaa-api
 A stitched graphql API for Kororaa.
+
+## TESTING
+
+```
+npm install
+npm test
+```
+
+### Test details and coverage report
+
+```
+npm test -- --verbose --coverage
+```
+
+### Run service locally
+
+`npx serverless offline`
+
+then browse to http://localhost:4100/dev/kororaa-app-api/graphql

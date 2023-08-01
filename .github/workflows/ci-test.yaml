@@ -1,9 +1,8 @@
-name: CI tests
+name: CI Pull request run tests
 on:
-  push:
-    branches:
-      - main
-      - deploy-test
+  pull_request:
+    branches: [main, deploy-test]
+  workflow_call:
 
 jobs:
   run-tests:

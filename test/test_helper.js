@@ -10,7 +10,8 @@ const { config } = require('./gateway_test_config');
 // Setup a mapping of test fixtures by service name
 const fixturesByName = {
   toshi: require('./mock_services/toshi'),
-  kororaa: require('./mock_services/kororaa')
+  kororaa: require('./mock_services/kororaa'),
+  solvis: require('./mock_services/solvis')
   };
 
 // Get the subschemas with a test configuration:
