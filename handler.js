@@ -1,5 +1,4 @@
-require('dotenv').config()
-const { configure } = require('@vendia/serverless-express')
+require('dotenv').config();
 const { createYoga } = require('graphql-yoga');
 const { buildSubschemaConfigs, buildGatewaySchema } = require('./lib/schema_builder');
 const { config } = require('./gateway_config');
@@ -10,7 +9,7 @@ const logger = require('./logger');
 const subschemaConfigs = buildSubschemaConfigs(config);
 const stitchedSchema = buildGatewaySchema(subschemaConfigs);
 
-const rootPath = `/${process.env.BASE_PATH}/graphql` // must fit serverless.yml eg `/X/{any+}`
+const rootPath = `/${process.env.BASE_PATH}/graphql`; // must fit serverless.yml eg `/X/{any+}`
 
 const yoga = createYoga({
   graphqlEndpoint: rootPath, // MUST MATCH path in serverlss.yml

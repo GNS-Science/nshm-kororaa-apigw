@@ -1,6 +1,6 @@
 # serverless.yml
 service: nshm-kororaa-apigw
- 
+
 useDotenv: true
 
 provider:

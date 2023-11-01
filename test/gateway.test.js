@@ -3,7 +3,6 @@ const { queryMockedGateway } = require('./test_helper');
 // based on https://github.com/gmac/schema-stitching-handbook/tree/main/continuous-integration-testing
 
 describe('gateway schema', () => {
-
   test('resolves Toshi node', async () => {
     const QUERY_0 = `query {
       node(id: "U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2") {
@@ -18,16 +17,16 @@ describe('gateway schema', () => {
     // console.log(errors)
     expect(data).toBeDefined();
 
-    expect(data).toEqual({ node: {
-      __typename: 'ScaledInversionSolution',
-      id: 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
-      file_name: 'holas',
-      file_size: 677,
-      file_url: "toshi-value"
-    }
+    expect(data).toEqual({
+      node: {
+        __typename: 'ScaledInversionSolution',
+        id: 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
+        file_name: 'holas',
+        file_size: 677,
+        file_url: 'toshi-value',
+      },
     });
   });
-
 
   test('resolves Kororaa about', async () => {
     const query = `query {
@@ -36,9 +35,8 @@ describe('gateway schema', () => {
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data).toEqual({ about: "kororaa-value" })
+    expect(data).toEqual({ about: 'kororaa-value' });
   });
-
 
   test('resolves SOLVIS about', async () => {
     const query = `query {
@@ -47,7 +45,7 @@ describe('gateway schema', () => {
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data).toEqual({ SOLVIS_about: "solvis-value" })
+    expect(data).toEqual({ SOLVIS_about: 'solvis-value' });
   });
 
   test('resolves SOLVIS about', async () => {
@@ -68,10 +66,9 @@ describe('gateway schema', () => {
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data.SOLVIS_inversion_solution).toBeDefined()
-    expect(data.SOLVIS_inversion_solution.analysis).toBeDefined()
-    expect(data.SOLVIS_inversion_solution.analysis.fault_sections_geojson).toEqual("JuicyJson")
-
+    expect(data.SOLVIS_inversion_solution).toBeDefined();
+    expect(data.SOLVIS_inversion_solution.analysis).toBeDefined();
+    expect(data.SOLVIS_inversion_solution.analysis.fault_sections_geojson).toEqual('JuicyJson');
   });
 
   test('resolves delegated field on KORORAA.nzshm_model', async () => {
@@ -94,14 +91,21 @@ describe('gateway schema', () => {
             }
           }
         }
-      }`
+      }
+    `;
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].weight).toBeDefined()
-    expect(data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution).toBeDefined()
-    expect(data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution.__typename).toEqual('ScaledInversionSolution')
+    expect(
+      data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].weight,
+    ).toBeDefined();
+    expect(
+      data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution,
+    ).toBeDefined();
+    expect(
+      data.nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution
+        .__typename,
+    ).toEqual('ScaledInversionSolution');
     // console.log(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution)
-    })
-
+  });
 });

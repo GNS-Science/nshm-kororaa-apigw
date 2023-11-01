@@ -7,14 +7,14 @@ on:
 
 jobs:
   call-test-workflow:
-   # https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow
-   uses: ./.github/workflows/ci-test.yaml
+    # https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow
+    uses: ./.github/workflows/ci-test.yaml
 
   deploy:
     needs: call-test-workflow
     runs-on: ubuntu-latest
     environment: AWS_PROD
-        
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
         run: npm install
 
       - name: List packages
-        run: npm ls	
+        run: npm ls
 
       - name: Serverless Doctor
         run: npm run-script sls_doctor
@@ -58,4 +58,3 @@ jobs:
           NZSHM22_SOLVIS_API_URL: ${{ secrets.NZSHM22_SOLVIS_API_URL }}
           NZSHM22_SOLVIS_API_KEY: ${{ secrets.NZSHM22_SOLVIS_API_KEY }}
         run: STAGE=prod npm run-script deploy
-
