@@ -33,8 +33,6 @@
 //   return n
 // }
 
-
-
 // module.exports = {
 //   resolvers: {
 //     QueryRoot: {
@@ -54,32 +52,34 @@ const { createMockStore } = require('@graphql-tools/mock');
 // store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
 //    { id:'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', file_size: 300, file_name: "abc.zip"} )
 
-function resolve_node(store, id, ...rest) {
-  // console.log('toshi.resolve_node', id)
-  let n = store.get('ScaledInversionSolution', id)
+function resolveNode(store, id) {
+  // console.log('toshi.resolveNode', id)
+  const n = store.get('ScaledInversionSolution', id);
   // console.log('found', n )
   // CBC: this works...
-  n.file_size = 677
-  n.file_name = 'holas'
-
-  return n
+  n.file_size = 677;
+  n.file_name = 'holas';
+  return n;
 }
 
 function setupResolvers(schema) {
-  const store = createMockStore({ schema })
-  return store => {
-        return {
-          QueryRoot: {
-            node: (_, { id }) => resolve_node(store, id)
-          }
-        }
-      }
+  const store = createMockStore({ schema });
+  store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
+    { id:'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', file_size: 300, file_name: 'abc.zip'} )
+
+  return () => {
+    return {
+      QueryRoot: {
+        node: (_, { id }) => resolveNode(store, id),
+      },
+    };
+  };
 }
 
 module.exports = {
-    mocks:{
-        BigInt: () => 555e6,
-        // String: () => 'Goodness me',
-      },
-    resolvers: setupResolvers
-}
+  mocks: {
+    BigInt: () => 555e6,
+    // String: () => 'Goodness me',
+  },
+  resolvers: setupResolvers,
+};

@@ -9,20 +9,29 @@
     "@graphql-tools/stitch": "8.7.34",
     "@graphql-tools/stitching-directives": "^2.3.24",
     "@graphql-tools/url-loader": "7.16.29",
-    "@graphql-tools/wrap": "9.2.23",
     "@graphql-tools/utils": "^7.10.0",
+    "@graphql-tools/wrap": "9.2.23",
     "@graphql-yoga/node": "3.3.0",
     "@vendia/serverless-express": "^4.10.1",
     "@whatwg-node/fetch": "0.6.1",
+    "cross-fetch": "^4.0.0",
     "dotenv": "16.0.3",
     "express": "4.18.2",
+    "graphql": "^15.8.0",
     "graphql-request": "5.1.0",
     "graphql-yoga": "3.3.0",
+    "pino": "^8.16.1",
     "serverless-http": "^3.1.1"
   },
   "devDependencies": {
     "@graphql-tools/mock": "^8.7.14",
+    "@serverless/eslint-config": "^5.1.0",
+    "eslint": "^8.47.0",
+    "eslint-plugin-graphql": "^4.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "git-list-updated": "^1.2.1",
     "jest": "^29.3.1",
+    "prettier": "^3.0.2",
     "serverless-domain-manager": "^6.2.1",
     "serverless-offline": "^12.0.4",
     "serverless-plugin-warmup": "^8.2.1"
@@ -32,8 +41,29 @@
     "start": "node server.js",
     "test": "jest test",
     "deploy": "serverless deploy --stage ${STAGE}",
-    "sls_doctor": "serverless doctor"
+    "sls_doctor": "serverless doctor",
+    "lint": "eslint  --ignore-path .gitignore .",
+    "lint:updated": "pipe-git-updated --ext=js -- eslint --ignore-path .gitignore",
+    "prettier-check": "prettier -c --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml}\"",
+    "prettier-check:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier -c",
+    "prettify": "prettier --write --ignore-path .gitignore \"**/*.{css,html,js,json,md,yaml,yml}\"",
+    "prettify:updated": "pipe-git-updated --ext=css --ext=html --ext=js --ext=json --ext=md --ext=yaml --ext=yml -- prettier --write"
   },
   "author": "",
-  "license": "AGPL3"
+  "license": "AGPL3",
+  "eslintConfig": {
+    "extends": [
+      "@serverless/eslint-config/node"
+    ],
+    "root": true,
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    }
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
 }
