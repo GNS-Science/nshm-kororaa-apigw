@@ -4,17 +4,22 @@ module.exports = {
       toshi: {
         url: 'http://localhost:4001/graphql',
         key: 'NADA',
-        prefix: null,
+        prefix: 'TOSHI',
       },
       kororaa: {
         url: 'http://localhost:4002/graphql',
         key: 'nonce',
-        prefix: null,
+        prefix: 'KORORAA',
       },
       solvis: {
         url: 'http://localhost:4003/graphql',
         key: 'scones',
         prefix: 'SOLVIS',
+      },
+      hazard: {
+        url: 'http://localhost:4004/graphql',
+        key: 'Noob',
+        prefix: 'HAZARD',
       },
     },
   },
