@@ -100,11 +100,12 @@ describe('gateway schema', () => {
       data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].weight,
     ).toBeDefined();
     expect(
-      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution,
+      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0]
+        .source_solution,
     ).toBeDefined();
     expect(
-      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution
-        .__typename,
+      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0]
+        .source_solution.__typename,
     ).toEqual('ScaledInversionSolution');
     // console.log(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution)
   });
