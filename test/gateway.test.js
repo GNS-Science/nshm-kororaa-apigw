@@ -48,7 +48,7 @@ describe('gateway schema', () => {
     expect(data).toEqual({ SOLVIS_about: 'solvis-value' });
   });
 
-  test('resolves SOLVIS about', async () => {
+  test('resolves SOLVIS inversion_solution', async () => {
     const query = `query {
       SOLVIS_inversion_solution (
         filter:{
