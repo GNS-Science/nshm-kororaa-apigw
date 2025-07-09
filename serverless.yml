@@ -16,7 +16,7 @@ provider:
 plugins:
   - serverless-offline
   - serverless-plugin-warmup
-  - serverless-domain-manager
+  # - serverless-domain-manager
 
 custom:
   # DRY constants: define all compound/generated names in one place
@@ -38,14 +38,14 @@ custom:
   serverless-offline:
     httpPort: 4100
 
-  # serverless-domain-manager settings
-  domains:
-    prod: nshm-api.gns.cri.nz
-    test: nshm-api-test.gns.cri.nz
-    dev: nshm-api-dev.gns.cri.nz
+  # # serverless-domain-manager settings
+  # domains:
+  #   prod: nshm-api.gns.cri.nz
+  #   test: nshm-api-test.gns.cri.nz
+  #   dev: nshm-api-dev.gns.cri.nz
 
   customDomain:
-    domainName: ${self:custom.domains.${self:custom.stage}}
+    # domainName: ${self:custom.domains.${self:custom.stage}}
     basePath: 'kororaa-app-api' # This will be prefixed to all routes
     stage: ${self:custom.stage}
     createRoute53Record: false
@@ -89,4 +89,6 @@ functions:
       NZSHM22_TOSHI_API_KEY: ${env:NZSHM22_TOSHI_API_KEY}
       NZSHM22_SOLVIS_API_URL: ${env:NZSHM22_SOLVIS_API_URL}
       NZSHM22_SOLVIS_API_KEY: ${env:NZSHM22_SOLVIS_API_KEY}
+      NZSHM22_HAZARD_API_URL: ${env:NZSHM22_HAZARD_API_URL}
+      NZSHM22_HAZARD_API_KEY: ${env:NZSHM22_HAZARD_API_KEY}      
       PINO_LOG_LEVEL: ${env:PINO_LOG_LEVEL, "info"}
