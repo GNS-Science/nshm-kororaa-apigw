@@ -38,14 +38,14 @@ custom:
   serverless-offline:
     httpPort: 4100
 
-  # # serverless-domain-manager settings
-  # domains:
-  #   prod: nshm-api.gns.cri.nz
-  #   test: nshm-api-test.gns.cri.nz
-  #   dev: nshm-api-dev.gns.cri.nz
+  # serverless-domain-manager settings
+  domains:
+    prod: nshm-api.gns.cri.nz
+    test: nshm-api-test.gns.cri.nz
+    dev: nshm-api-dev.gns.cri.nz
 
   customDomain:
-    # domainName: ${self:custom.domains.${self:custom.stage}}
+    domainName: ${self:custom.domains.${self:custom.stage}}
     basePath: 'kororaa-app-api' # This will be prefixed to all routes
     stage: ${self:custom.stage}
     createRoute53Record: false
