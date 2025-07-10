@@ -5,7 +5,7 @@ useDotenv: true
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs22.x
   stage: dev
   region: ap-southeast-2
 
@@ -16,7 +16,7 @@ provider:
 plugins:
   - serverless-offline
   - serverless-plugin-warmup
-  - serverless-domain-manager
+  # - serverless-domain-manager
 
 custom:
   # DRY constants: define all compound/generated names in one place
@@ -89,4 +89,6 @@ functions:
       NZSHM22_TOSHI_API_KEY: ${env:NZSHM22_TOSHI_API_KEY}
       NZSHM22_SOLVIS_API_URL: ${env:NZSHM22_SOLVIS_API_URL}
       NZSHM22_SOLVIS_API_KEY: ${env:NZSHM22_SOLVIS_API_KEY}
+      NZSHM22_HAZARD_API_URL: ${env:NZSHM22_HAZARD_API_URL}
+      NZSHM22_HAZARD_API_KEY: ${env:NZSHM22_HAZARD_API_KEY}
       PINO_LOG_LEVEL: ${env:PINO_LOG_LEVEL, "info"}
