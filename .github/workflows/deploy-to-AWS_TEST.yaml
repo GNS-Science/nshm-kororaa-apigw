@@ -38,9 +38,6 @@ jobs:
       - name: List packages
         run: npm ls
 
-      - name: Serverless Doctor
-        run: npm run-script sls_doctor
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -50,11 +47,14 @@ jobs:
 
       - name: Serverless Deploy ....
         env:
-          # with the AWS_TEST environment secrets
+          # with the AWS_TEST environment secrets/vars
           NZSHM22_KORORAA_API_URL: ${{ secrets.NZSHM22_KORORAA_API_URL }}
           NZSHM22_KORORAA_API_KEY: ${{ secrets.NZSHM22_KORORAA_API_KEY }}
           NZSHM22_TOSHI_API_URL: ${{ secrets.NZSHM22_TOSHI_API_URL }}
           NZSHM22_TOSHI_API_KEY: ${{ secrets.NZSHM22_TOSHI_API_KEY }}
           NZSHM22_SOLVIS_API_URL: ${{ secrets.NZSHM22_SOLVIS_API_URL }}
           NZSHM22_SOLVIS_API_KEY: ${{ secrets.NZSHM22_SOLVIS_API_KEY }}
+          NZSHM22_HAZARD_API_URL: ${{ vars.NZSHM22_HAZARD_API_URL }}
+          NZSHM22_HAZARD_API_KEY: ${{ secrets.NZSHM22_HAZARD_API_KEY }}
+          SERVERLESS_ACCESS_KEY:  ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: STAGE=test npm run-script deploy
