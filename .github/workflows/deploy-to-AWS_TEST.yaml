@@ -56,5 +56,5 @@ jobs:
           NZSHM22_SOLVIS_API_KEY: ${{ secrets.NZSHM22_SOLVIS_API_KEY }}
           NZSHM22_HAZARD_API_URL: ${{ vars.NZSHM22_HAZARD_API_URL }}
           NZSHM22_HAZARD_API_KEY: ${{ secrets.NZSHM22_HAZARD_API_KEY }}
-          SERVERLESS_ACCESS_KEY:  ${{ secrets.SERVERLESS_ACCESS_KEY }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: STAGE=test npm run-script deploy
