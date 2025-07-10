@@ -23,9 +23,15 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@gns-science'
 
+      - name: Node install
+        run: npm install
+
+      - name: Code QA
+        run: |
+          npm run-script lint
+          npm run-script prettier-check
+
       - name: NPM test
         env:
           CI: true
-        run: |
-          npm install
-          npm test
+        run: npm test
