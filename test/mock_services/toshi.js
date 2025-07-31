@@ -64,8 +64,11 @@ function resolveNode(store, id) {
 
 function setupResolvers(schema) {
   const store = createMockStore({ schema });
-  store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
-    { id:'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', file_size: 300, file_name: 'abc.zip'} )
+  store.set('ScaledInversionSolution', 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2', {
+    id: 'U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTE4NTQ2',
+    file_size: 300,
+    file_name: 'abc.zip',
+  });
 
   return () => {
     return {

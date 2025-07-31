@@ -13,6 +13,7 @@ const fixturesByName = {
   toshi: require('./mock_services/toshi'),
   kororaa: require('./mock_services/kororaa'),
   solvis: require('./mock_services/solvis'),
+  hazard: require('./mock_services/hazard'),
 };
 
 // Get the subschemas with a test configuration:

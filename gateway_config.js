@@ -17,6 +17,11 @@ module.exports = {
         key: process.env.NZSHM22_SOLVIS_API_KEY,
         prefix: 'SOLVIS',
       },
+      hazard: {
+        url: process.env.NZSHM22_HAZARD_API_URL,
+        key: process.env.NZSHM22_HAZARD_API_KEY,
+        prefix: 'HAZARD',
+      },
     },
   },
 };

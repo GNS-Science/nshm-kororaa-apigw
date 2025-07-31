@@ -2,7 +2,7 @@ const pino = require('pino');
 
 const logLevel = process.env.PINO_LOG_LEVEL || 'debug';
 
-console.log(`Logging level: ${logLevel}`); // eslint-disable-line no-console
+console.log(`Logging level: ${logLevel}`);
 
 module.exports = pino({
   level: logLevel,
