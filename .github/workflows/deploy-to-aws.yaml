@@ -15,6 +15,7 @@ jobs:
     uses: ./.github/workflows/ci-test.yaml
 
   call-deploy-workflow:
+    needs: call-test-workflow
     uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@feature/16-deploy-to-aws
     with:
       operating-system: 'ubuntu-latest'
