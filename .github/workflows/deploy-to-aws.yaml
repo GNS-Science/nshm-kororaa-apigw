@@ -21,7 +21,7 @@ jobs:
       node-version: '22'
       environment: true
       smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about}'
-      smoketest-expected: 'HAZARD_about.*KORORAA_about.*kororaa_graphql_api.*SOLVIS_about.*solvis_graphql_api'
+      smoketest-expected: '(?=.*HAZARD_about)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api).*'
       smoketest-url-prod: https://nshm-api.gns.cri.nz/kororaa-app-api/graphql
       smoketest-url-test: https://nshm-api-test.gns.cri.nz/kororaa-app-api/graphql
     secrets: inherit
