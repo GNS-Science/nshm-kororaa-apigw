@@ -11,14 +11,12 @@ on:
 
 jobs:
   call-test-workflow:
-    # https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow
     uses: ./.github/workflows/ci-test.yaml
 
   call-deploy-workflow:
     needs: call-test-workflow
-    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@feature/16-deploy-to-aws
+    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
     with:
-      operating-system: 'ubuntu-latest'
       python-version: 'None'
       node-version: '22'
       environment: true
