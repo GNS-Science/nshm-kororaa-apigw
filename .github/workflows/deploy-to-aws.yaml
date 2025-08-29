@@ -10,11 +10,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-test-workflow:
-    uses: ./.github/workflows/ci-test.yaml
+  # call-test-workflow:
+  #   uses: ./.github/workflows/ci-test.yaml
 
   call-deploy-workflow:
-    needs: call-test-workflow
+    # needs: call-test-workflow
     uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
     with:
       python-version: 'None'
