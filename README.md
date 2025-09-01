@@ -24,7 +24,6 @@ npm test -- --verbose --coverage
 
 then browse to http://localhost:4100/dev/kororaa-app-api/graphql
 
-
 ## Upgrade GraphQL APIs
 
 When any one of the child APIs change, use `get-graphql-schema` to pull in the new schema. For example:
