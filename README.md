@@ -23,3 +23,12 @@ npm test -- --verbose --coverage
 `npx serverless offline`
 
 then browse to http://localhost:4100/dev/kororaa-app-api/graphql
+
+
+## Upgrade GraphQL APIs
+
+When any one of the child APIs change, use `get-graphql-schema` to pull in the new schema. For example:
+
+```
+ npx get-graphql-schema -h "x-api-key={API-key}" {API-URL} > .\remote_schemas\toshi.schema.graphql
+```
