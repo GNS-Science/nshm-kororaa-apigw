@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] - TBD
+
+- Updated `nshm_toshi_api` schema to latest version 0.2.6
+
 ## [0.2.0] - 2025-07
 
 ### Added
