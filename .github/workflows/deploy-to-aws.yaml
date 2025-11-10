@@ -10,29 +10,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  # call-test-workflow:
-  #   uses: ./.github/workflows/ci-test.yaml
+  call-test-workflow:
+    uses: ./.github/workflows/ci-test.yaml
 
-  debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: debug
-        env:
-            SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-
-        run: |
-          echo "$SERVERLESS_ACCESS_KEY" | sed 's/./&-/g;s/ $//'
-
-  # call-deploy-workflow:
-  #   needs: call-test-workflow
-  #   uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
-  #   with:
-  #     python-version: 'None'
-  #     node-version: '22'
-  #     node-pkg-manager: 'yarn2'
-  #     environment: true
-  #     smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about TOSHI_about}'
-  #     smoketest-expected: '(?=.*HAZARD_about.*nshm_hazard_graphql_api)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api)(?=.*TOSHI_about.*nshm_toshi_api*).*'
-  #     smoketest-url-prod: https://nshm-api.gns.cri.nz/kororaa-app-api/graphql
-  #     smoketest-url-test: https://nshm-api-test.gns.cri.nz/kororaa-app-api/graphql
-  #   secrets: inherit
+  call-deploy-workflow:
+    needs: call-test-workflow
+    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
+    with:
+      python-version: 'None'
+      node-version: '22'
+      node-pkg-manager: 'yarn2'
+      environment: true
+      smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about TOSHI_about}'
+      smoketest-expected: '(?=.*HAZARD_about.*nshm_hazard_graphql_api)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api)(?=.*TOSHI_about.*nshm_toshi_api*).*'
+      smoketest-url-prod: https://nshm-api.gns.cri.nz/kororaa-app-api/graphql
+      smoketest-url-test: https://nshm-api-test.gns.cri.nz/kororaa-app-api/graphql
+    secrets: inherit
