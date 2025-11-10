@@ -19,6 +19,7 @@ jobs:
     with:
       python-version: 'None'
       node-version: '22'
+      node-pkg-manager: 'yarn2'
       environment: true
       smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about TOSHI_about}'
       smoketest-expected: '(?=.*HAZARD_about.*nshm_hazard_graphql_api)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api)(?=.*TOSHI_about.*nshm_toshi_api*).*'

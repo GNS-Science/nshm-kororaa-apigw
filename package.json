@@ -68,5 +68,6 @@
     "printWidth": 100,
     "singleQuote": true,
     "trailingComma": "all"
-  }
+  },
+  "packageManager": "yarn@4.11.0"
 }
