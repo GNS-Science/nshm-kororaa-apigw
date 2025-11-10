@@ -80,7 +80,7 @@ type QueryRoot {
   """About this API """
   about: String
   gridded_location(lat: Float, lon: Float, resolution: Float): GriddedLocationResult
-  hazard_curves(hazard_model: String, imts: [String], locs: [String], aggs: [String], vs30s: [Int], resolution: Float = 0.1): ToshiHazardCurveResult
+  hazard_curves(hazard_model: String, imts: [String], locs: [String], aggs: [String], vs30s: [Int], resolution: Float = 0.1, query_strategy: String): ToshiHazardCurveResult
   gridded_hazard(grid_id: RegionGrid, hazard_model_id: String, imt: String, loc: String, agg: String, vs30: Int, poe: Float): GriddedHazardResult
 }
 
