@@ -48,7 +48,7 @@ Object.entries(subschemaConfigs).forEach(([name, subschemaConfig]) => {
 const mockedGateway = buildGatewaySchema(subschemaConfigs);
 
 function queryMockedGateway(query, variables = {}) {
-  return graphql(mockedGateway, query, {}, variables);
+    return graphql({ schema: mockedGateway, source: query, variables: variables });
 }
 
 module.exports = {
