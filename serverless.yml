@@ -16,7 +16,6 @@ provider:
 plugins:
   - serverless-offline
   - serverless-plugin-warmup
-  # - serverless-domain-manager
 
 custom:
   # DRY constants: define all compound/generated names in one place
@@ -77,7 +76,7 @@ functions:
           method: GET
           private: true
     environment:
-      BASE_PATH: ${self:custom.customDomain.basePath}
+      BASE_PATH: 'kororaa-app-api' # This will be prefixed to all routes
       SERVICE_NAME: ${self:service}
       STACK_NAME: ${self:custom.stack_name}
       REGION: ${self:custom.region}
