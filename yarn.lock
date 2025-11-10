@@ -3126,7 +3126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vendia/serverless-express@npm:^4.10.1":
+"@vendia/serverless-express@npm:^4.12.6":
   version: 4.12.6
   resolution: "@vendia/serverless-express@npm:4.12.6"
   dependencies:
@@ -7356,7 +7356,7 @@ __metadata:
     "@graphql-tools/utils": "npm:^10.8.6"
     "@graphql-tools/wrap": "npm:^10.1.2"
     "@serverless/eslint-config": "npm:^5.1.0"
-    "@vendia/serverless-express": "npm:^4.10.1"
+    "@vendia/serverless-express": "npm:^4.12.6"
     "@whatwg-node/fetch": "npm:^0.10.8"
     cross-fetch: "npm:^4.0.0"
     dotenv: "npm:^17.2.0"
@@ -7373,10 +7373,10 @@ __metadata:
     jest: "npm:^29.3.1"
     pino: "npm:^9.7.0"
     prettier: "npm:^3.0.2"
-    serverless: "npm:^4.17.1"
-    serverless-http: "npm:^3.1.1"
+    serverless: "npm:^4.23.0"
+    serverless-http: "npm:^4.0.0"
     serverless-offline: "npm:^14.4.0"
-    serverless-plugin-warmup: "npm:^8.2.1"
+    serverless-plugin-warmup: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -8215,10 +8215,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serverless-http@npm:^3.1.1":
-  version: 3.2.0
-  resolution: "serverless-http@npm:3.2.0"
-  checksum: 10c0/05f383dbb9ef9e861c0837a7c891fed935dc2af140d1f43deab1921e5fac3a55224ef53dfb026d3d81f29320568e6fc00112c9f31446f961aea3502aa48e2469
+"serverless-http@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "serverless-http@npm:4.0.0"
+  checksum: 10c0/e613beb1c93a331281fb0302423907531d9d197e7f7fef94466e22d350bb48b72e6020d39b5c7569a2d6736fde945cb198ed1d12001bfc9e82a5de791bb84c7d
   languageName: node
   linkType: hard
 
@@ -8258,14 +8258,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"serverless-plugin-warmup@npm:^8.2.1":
+"serverless-plugin-warmup@npm:^8.3.0":
   version: 8.3.0
   resolution: "serverless-plugin-warmup@npm:8.3.0"
   checksum: 10c0/22a89b12a64a010ad7ff36e181498ec38f336be805d1141931102415f4620ee034bbef07259a61ed3aa86a57d58d5d89a89c1fecda6d90d431fcbfbddbbfdd31
   languageName: node
   linkType: hard
 
-"serverless@npm:^4.17.1":
+"serverless@npm:^4.23.0":
   version: 4.23.0
   resolution: "serverless@npm:4.23.0"
   dependencies:
