@@ -3375,6 +3375,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@whatwg-node/fetch@npm:^0.10.13":
+  version: 0.10.13
+  resolution: "@whatwg-node/fetch@npm:0.10.13"
+  dependencies:
+    "@whatwg-node/node-fetch": "npm:^0.8.3"
+    urlpattern-polyfill: "npm:^10.0.0"
+  checksum: 10c0/afce42c44e9c5572ac5800615bac3a03865923af53af99098d2e931b40f6db556ad5d4a3e08c29e51ecf871809f0860fb11f2b024891daa26646a309f8b07fc1
+  languageName: node
+  linkType: hard
+
 "@whatwg-node/fetch@npm:^0.9.7":
   version: 0.9.23
   resolution: "@whatwg-node/fetch@npm:0.9.23"
@@ -3406,6 +3416,18 @@ __metadata:
     "@whatwg-node/promise-helpers": "npm:^1.3.2"
     tslib: "npm:^2.6.3"
   checksum: 10c0/5768beaffe3df53260bea498d1a2fbadcd8b4bc92903e5920f23fec67f97d82f32c4b5f4effb75352d5447a8b08c440f0e16a8c9196443d9468f3f8ccf6b62b2
+  languageName: node
+  linkType: hard
+
+"@whatwg-node/node-fetch@npm:^0.8.3":
+  version: 0.8.4
+  resolution: "@whatwg-node/node-fetch@npm:0.8.4"
+  dependencies:
+    "@fastify/busboy": "npm:^3.1.1"
+    "@whatwg-node/disposablestack": "npm:^0.0.6"
+    "@whatwg-node/promise-helpers": "npm:^1.3.2"
+    tslib: "npm:^2.6.3"
+  checksum: 10c0/dfe4123d5080364594ed1b6614a32a68e84b45db4f372c9b6b96dcc61321a6b3b35457fc88b6cac09b644391b9c3426c2fd209962525e9dc16f2337dadbcd4b0
   languageName: node
   linkType: hard
 
@@ -5667,14 +5689,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-request@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "graphql-request@npm:7.3.2"
+"graphql-request@npm:^7.3.3":
+  version: 7.3.3
+  resolution: "graphql-request@npm:7.3.3"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.2.0"
   peerDependencies:
     graphql: 14 - 16
-  checksum: 10c0/40c9f98276eeaf9cc35fc0069bf97abbfc5ac285591518d636712d21bfe28475c7660f16043fd40153557ec33b775cb12883dd078243dbcf4267e9fc9874311a
+  checksum: 10c0/ca723d387f54b6d713f82b9640d44f474b9f21433b6a649ddd3bbc797b2abc014f7f912b3abe5285da91aabb263f1eeb373c35c92d25537ff92f1c55bb062cca
   languageName: node
   linkType: hard
 
@@ -7539,7 +7561,7 @@ __metadata:
     "@graphql-tools/wrap": "npm:^11.0.4"
     "@serverless/eslint-config": "npm:^5.1.0"
     "@vendia/serverless-express": "npm:^4.12.6"
-    "@whatwg-node/fetch": "npm:^0.10.12"
+    "@whatwg-node/fetch": "npm:^0.10.13"
     cross-fetch: "npm:^4.1.0"
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.1"
@@ -7550,7 +7572,7 @@ __metadata:
     git-list-updated: "npm:^1.2.1"
     globals: "npm:^16.5.0"
     graphql: "npm:^16.12.0"
-    graphql-request: "npm:^7.3.2"
+    graphql-request: "npm:^7.3.3"
     graphql-yoga: "npm:^4.0.5"
     jest: "npm:^30.2.0"
     pino: "npm:^10.1.0"
