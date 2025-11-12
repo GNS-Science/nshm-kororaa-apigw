@@ -10,7 +10,6 @@ const { stitchingDirectivesValidator } = stitchingDirectives();
 
 // Setup a mapping of test fixtures by service name
 const fixturesByName = {
-  toshi: require('./mock_services/toshi'),
   kororaa: require('./mock_services/kororaa'),
   solvis: require('./mock_services/solvis'),
   hazard: require('./mock_services/hazard'),
