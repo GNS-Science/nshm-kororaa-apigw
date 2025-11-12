@@ -8,19 +8,19 @@ A stitched graphql API for Kororaa.
 ## TESTING
 
 ```
-npm install
-npm test
+yarn install
+yarn test
 ```
 
 ### Test details and coverage report
 
 ```
-npm test -- --verbose --coverage
+yarn test -- --verbose --coverage
 ```
 
 ### Run service locally
 
-`npx serverless offline`
+`yarn sls offline`
 
 then browse to http://localhost:4100/dev/kororaa-app-api/graphql
 
@@ -29,5 +29,5 @@ then browse to http://localhost:4100/dev/kororaa-app-api/graphql
 When any one of the child APIs change, use `get-graphql-schema` to pull in the new schema. For example:
 
 ```
- npx get-graphql-schema -h "x-api-key={API-key}" {API-URL} > .\remote_schemas\toshi.schema.graphql
+ yarn get-graphql-schema -h "x-api-key={API-key}" {API-URL} > .\remote_schemas\toshi.schema.graphql
 ```

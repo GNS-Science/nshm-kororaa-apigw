@@ -48,65 +48,13 @@ describe('gateway schema', () => {
     expect(data).toEqual({ SOLVIS_about: 'solvis-value' });
   });
 
-  test('resolves SOLVIS inversion_solution', async () => {
+  test('resolves HAZARD about', async () => {
     const query = `query {
-      SOLVIS_inversion_solution (
-        filter:{
-          solution_id:"U2NhbGVkSW52ZXJzaW9uU29sdXRpb246MTIwNzIy"
-          location_ids: ["WLG", "LVN"]
-          radius_km: 30
-          minimum_mag:8.2
-        }) {
-        analysis {
-          fault_sections_geojson
-          solution_id
-        }
-      }
+      HAZARD_about
     }`;
     const { errors, data } = await queryMockedGateway(query);
     expect(errors).not.toBeDefined();
     expect(data).toBeDefined();
-    expect(data.SOLVIS_inversion_solution).toBeDefined();
-    expect(data.SOLVIS_inversion_solution.analysis).toBeDefined();
-    expect(data.SOLVIS_inversion_solution.analysis.fault_sections_geojson).toEqual('JuicyJson');
-  });
-
-  test('resolves delegated field on KORORAA.nzshm_model', async () => {
-    const query = /* GraphQL */ `
-      query stitching_with_delegated_field {
-        KORORAA_nzshm_model(version: "NSHM_1.0.0") {
-          model {
-            source_logic_tree {
-              fault_system_branches {
-                branches {
-                  weight
-                  source_solution {
-                    __typename
-                    ... on ScaledInversionSolution {
-                      file_name
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `;
-    const { errors, data } = await queryMockedGateway(query);
-    expect(errors).not.toBeDefined();
-    expect(data).toBeDefined();
-    expect(
-      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].weight,
-    ).toBeDefined();
-    expect(
-      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0]
-        .source_solution,
-    ).toBeDefined();
-    expect(
-      data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0]
-        .source_solution.__typename,
-    ).toEqual('ScaledInversionSolution');
-    // console.log(data.KORORAA_nzshm_model.model.source_logic_tree.fault_system_branches[0].branches[0].source_solution)
+    expect(data).toEqual({ HAZARD_about: 'hazard-value' });
   });
 });

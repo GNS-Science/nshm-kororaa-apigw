@@ -2,7 +2,13 @@
 
 ## [0.2.1] - TBD
 
-- Updated `nshm_toshi_api` schema to latest version 0.2.6
+- Update `solvis` schema to latest version 0.9.2
+- Update `toshi` schema to latest version 0.3.2
+- Update `kororaa` schema to latest version 0.10.0
+- Update `hazard` schema to latest version 0.3.0
+- Upgrade serverless to v4
+- Upgrade to yarn2
+- Remove serverless-domain-manager
 
 ## [0.2.0] - 2025-07
 

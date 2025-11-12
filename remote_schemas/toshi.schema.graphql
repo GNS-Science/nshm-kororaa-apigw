@@ -3,11 +3,14 @@ schema {
   mutation: MutationRoot
 }
 
-"""Exposes a URL that specifies the behaviour of this scalar."""
+"""Exposes a URL that specifies the behavior of this scalar."""
 directive @specifiedBy(
-  """The URL that specifies the behaviour of this scalar."""
+  """The URL that specifies the behavior of this scalar."""
   url: String!
 ) on SCALAR
+
+"""Indicates an Input Object is a OneOf Input Object."""
+directive @oneOf on INPUT_OBJECT
 
 """
 Represents a Aggregate Inversion Solution file produced fby applying the
@@ -1055,9 +1058,7 @@ type ObjectIdentitiesEdge {
   cursor: String!
 }
 
-type ObjectIdentity implements Node {
-  """The ID of the object"""
-  id: ID!
+type ObjectIdentity {
   object_type: String
   object_id: String
   clazz_name: String
