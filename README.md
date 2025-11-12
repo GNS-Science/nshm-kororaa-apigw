@@ -29,5 +29,5 @@ then browse to http://localhost:4100/dev/kororaa-app-api/graphql
 When any one of the child APIs change, use `get-graphql-schema` to pull in the new schema. For example:
 
 ```
- yarn get-graphql-schema -h "x-api-key={API-key}" {API-URL} > .\remote_schemas\toshi.schema.graphql
+ yarn get-graphql-schema -h "x-api-key={API-key}" {API-URL} > .\remote_schemas\kororaa.schema.graphql
 ```
