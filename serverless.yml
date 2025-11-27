@@ -1,4 +1,8 @@
-# serverless.yml
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: gnssciencenshm
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: nshm-kororaa-apigw
+
 service: nshm-kororaa-apigw
 
 useDotenv: true
@@ -16,7 +20,6 @@ provider:
 plugins:
   - serverless-offline
   - serverless-plugin-warmup
-  # - serverless-domain-manager
 
 custom:
   # DRY constants: define all compound/generated names in one place
@@ -77,7 +80,7 @@ functions:
           method: GET
           private: true
     environment:
-      BASE_PATH: ${self:custom.customDomain.basePath}
+      BASE_PATH: 'kororaa-app-api' # This will be prefixed to all routes
       SERVICE_NAME: ${self:service}
       STACK_NAME: ${self:custom.stack_name}
       REGION: ${self:custom.region}
@@ -85,8 +88,6 @@ functions:
       ENABLE_METRICS: ${env:ENABLE_METRICS, 0}
       NZSHM22_KORORAA_API_URL: ${env:NZSHM22_KORORAA_API_URL}
       NZSHM22_KORORAA_API_KEY: ${env:NZSHM22_KORORAA_API_KEY}
-      NZSHM22_TOSHI_API_URL: ${env:NZSHM22_TOSHI_API_URL}
-      NZSHM22_TOSHI_API_KEY: ${env:NZSHM22_TOSHI_API_KEY}
       NZSHM22_SOLVIS_API_URL: ${env:NZSHM22_SOLVIS_API_URL}
       NZSHM22_SOLVIS_API_KEY: ${env:NZSHM22_SOLVIS_API_KEY}
       NZSHM22_HAZARD_API_URL: ${env:NZSHM22_HAZARD_API_URL}

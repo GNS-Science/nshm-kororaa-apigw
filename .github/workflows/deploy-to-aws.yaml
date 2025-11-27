@@ -4,21 +4,25 @@ on:
   push:
     branches:
       - deploy-test
-      # - main
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:      
+  workflow_dispatch:
 
 jobs:
   call-test-workflow:
-    # https://docs.github.com/en/actions/using-workflows/reusing-workflows#calling-a-reusable-workflow
     uses: ./.github/workflows/ci-test.yaml
 
   call-deploy-workflow:
-    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@feature/16-deploy-to-aws
+    needs: call-test-workflow
+    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
     with:
-      operating-system: 'ubuntu-latest'
       python-version: 'None'
       node-version: '22'
+      node-pkg-manager: 'yarn2'
       environment: true
+      smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about}'
+      smoketest-expected: '(?=.*HAZARD_about.*nshm_hazard_graphql_api)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api).*'
+      smoketest-url-prod: https://nshm-api.gns.cri.nz/kororaa-app-api/graphql
+      smoketest-url-test: https://nshm-api-test.gns.cri.nz/kororaa-app-api/graphql
     secrets: inherit

@@ -2,6 +2,12 @@ schema {
   query: QueryRoot
 }
 
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
+
 type ColorScale {
   name: String
   min_value: Float
@@ -15,7 +21,7 @@ input ColorScaleArgsInput {
   name: String = "inferno"
   min_value: Float
   max_value: Float
-  normalisation: ColourScaleNormaliseEnum
+  normalisation: ColourScaleNormaliseEnum = null
 }
 
 enum ColourScaleNormaliseEnum {
@@ -24,7 +30,7 @@ enum ColourScaleNormaliseEnum {
 }
 
 type CompositeRuptureDetail implements Node {
-  """The ID of the object."""
+  """The ID of the object"""
   id: ID!
   model_id: String
 
@@ -107,13 +113,13 @@ type CompositeRuptureSections {
   color_scale(name: String, normalization: ColourScaleNormaliseEnum, min_value: Float, max_value: Float): ColorScale
 }
 
+"""A complete NSHM model comprising at least one FaultSystemSolution"""
 type CompositeSolution {
   model_id: String
   fault_systems: [String]
-}
 
-type FilterInversionSolution {
-  analysis: InversionSolutionAnalysis
+  """get a URL so one can download the file"""
+  file_url: String
 }
 
 """Arguments FilterRupturesArgs"""
@@ -179,7 +185,7 @@ input FilterRupturesArgsInput {
 
   """The rupture/location intersection radius in km"""
   radius_km: Int
-  filter_set_options: FilterSetLogicOptionsInput
+  filter_set_options: FilterSetLogicOptionsInput = {multiple_locations: INTERSECTION, multiple_faults: UNION, locations_and_faults: INTERSECTION}
 
   """
   Constrain to fault_sections having a annual rate above the value supplied.
@@ -209,9 +215,9 @@ type FilterSetLogicOptions {
 }
 
 input FilterSetLogicOptionsInput {
-  multiple_locations: SetOperationEnum
-  multiple_faults: SetOperationEnum
-  locations_and_faults: SetOperationEnum
+  multiple_locations: SetOperationEnum = INTERSECTION
+  multiple_faults: SetOperationEnum = UNION
+  locations_and_faults: SetOperationEnum = INTERSECTION
 }
 
 """Defines styling arguments for geojson features"""
@@ -256,55 +262,6 @@ type HexRgbValueMapping {
 }
 
 """
-Represents the internal details of a given solution or filtered solution
-"""
-type InversionSolutionAnalysis {
-  solution_id: ID
-  fault_sections_geojson: JSONString
-  location_geojson: JSONString
-}
-
-"""Defines filter arguments for Inversions analysis"""
-input InversionSolutionAnalysisArguments {
-  """The ID of the InversionSolution"""
-  solution_id: ID!
-
-  """
-  Optional list of locations codes for proximity filtering e.g. `WLG,PMR,ZQN`
-  """
-  location_ids: [String] = []
-
-  """The rupture/location intersection radius in km"""
-  radius_km: Int
-
-  """
-  Constrain to fault_sections having a annual rate above the value supplied.
-  """
-  minimum_rate: Float
-
-  """
-  Constrain to fault_sections having a annual rate below the value supplied.
-  """
-  maximum_rate: Float
-
-  """
-  Constrain to fault_sections having a magnitude above the value supplied.
-  """
-  minimum_mag: Float
-
-  """
-  Constrain to fault_sections having a magnitude below the value supplied.
-  """
-  maximum_mag: Float
-
-  """feature style for rupture trace geojson."""
-  fault_trace_style: GeojsonLineStyleArgumentsInput = {stroke_color: "black", stroke_width: 1, stroke_opacity: 1}
-
-  """feature style for location polygons."""
-  location_area_style: GeojsonAreaStyleArgumentsInput = {stroke_color: "lightblue", stroke_width: 1, stroke_opacity: 1, fill_color: "lightblue", fill_opacity: 0.7}
-}
-
-"""
 Allows use of a JSON String for input / output from the GraphQL schema.
 
 Use of this type is *not recommended* as you lose the benefits of having a defined, static
@@ -328,7 +285,7 @@ type Location {
 
 """Represents the internal details of a given location"""
 type LocationDetail implements Node {
-  """The ID of the object."""
+  """The ID of the object"""
   id: ID!
   location_id: String
   name: String
@@ -380,7 +337,7 @@ type MagFreqDist {
 
 """An object with an ID"""
 interface Node {
-  """The ID of the object."""
+  """The ID of the object"""
   id: ID!
 }
 
@@ -411,7 +368,6 @@ type QueryRoot {
 
   """About this Solvis API """
   about: String
-  inversion_solution(filter: InversionSolutionAnalysisArguments!): FilterInversionSolution
   locations_by_id(
     """list of nzshm_common.location_ids e.g. `["WLG","PMR","ZQN"]`"""
     location_ids: [String]!
@@ -485,10 +441,21 @@ type RuptureDetailEdge {
   cursor: String!
 }
 
+"""
+Enumerated type for common set operations.
+
+    Attributes:
+        UNION (int): Represents the union operation.
+        INTERSECTION (int): Represents the intersection operation.
+        DIFFERENCE (int): Represents the difference operation.
+        SYMMETRIC_DIFFERENCE (int): Represents the symmetric difference operation.
+    
+"""
 enum SetOperationEnum {
   UNION
   INTERSECTION
   DIFFERENCE
+  SYMMETRIC_DIFFERENCE
 }
 
 input SimpleSortRupturesArgs {
