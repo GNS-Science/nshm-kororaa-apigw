@@ -18,7 +18,7 @@
     "express": "^5.1.0",
     "graphql": "^16.12.0",
     "graphql-request": "^7.3.3",
-    "graphql-yoga": "^4.0.5",
+    "graphql-yoga": "^6",
     "pino": "^10.1.0",
     "serverless-http": "^4.0.0"
   },
