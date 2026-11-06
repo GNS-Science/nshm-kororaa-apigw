@@ -4,7 +4,7 @@
   "description": "A stitched graphql API for Kororaa UI.",
   "dependencies": {
     "@graphql-tools/delegate": "^12",
-    "@graphql-tools/load": "^8.1.4",
+    "@graphql-tools/load": "^9",
     "@graphql-tools/schema": "^11",
     "@graphql-tools/stitch": "^10.1.2",
     "@graphql-tools/stitching-directives": "^4.0.4",

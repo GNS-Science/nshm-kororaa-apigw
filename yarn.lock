@@ -1514,17 +1514,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/load@npm:^8.1.4":
-  version: 8.1.4
-  resolution: "@graphql-tools/load@npm:8.1.4"
+"@graphql-tools/load@npm:^9":
+  version: 9.1.0
+  resolution: "@graphql-tools/load@npm:9.1.0"
   dependencies:
-    "@graphql-tools/schema": "npm:^10.0.27"
-    "@graphql-tools/utils": "npm:^10.10.1"
+    "@graphql-tools/schema": "npm:^11.0.7"
+    "@graphql-tools/utils": "npm:^13.2.0"
     p-limit: "npm:3.1.0"
     tslib: "npm:^2.4.0"
   peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 10c0/ff5f52fcb7c369eb6d26df88e9c6df56345883f5acfd90033dc32739ed41d270f7f681aa5d74994da1ab4dffdd4b292e8a5d2abdb7f5cd44e65187c3ce44d3d4
+    graphql: ^16.0.0 || ^17.0.0
+  checksum: 10c0/45bb560429eb917ad8cc931a7541bdacfbfcfb82b5783e04c34c38c8783f5dbfcd266eb4aa81daac684bfe9b84e325e5730fc9200aec859307d37b9892e3da67
   languageName: node
   linkType: hard
 
@@ -1604,7 +1604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/schema@npm:^11, @graphql-tools/schema@npm:^11.0.0":
+"@graphql-tools/schema@npm:^11, @graphql-tools/schema@npm:^11.0.0, @graphql-tools/schema@npm:^11.0.7":
   version: 11.0.7
   resolution: "@graphql-tools/schema@npm:11.0.7"
   dependencies:
@@ -7720,7 +7720,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^10"
     "@graphql-tools/delegate": "npm:^12"
-    "@graphql-tools/load": "npm:^8.1.4"
+    "@graphql-tools/load": "npm:^9"
     "@graphql-tools/mock": "npm:^9.1.1"
     "@graphql-tools/schema": "npm:^11"
     "@graphql-tools/stitch": "npm:^10.1.2"
