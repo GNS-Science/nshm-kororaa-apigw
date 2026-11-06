@@ -1605,7 +1605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/utils@npm:^13.1.1, @graphql-tools/utils@npm:^13.2.0":
+"@graphql-tools/utils@npm:^13, @graphql-tools/utils@npm:^13.1.1, @graphql-tools/utils@npm:^13.2.0":
   version: 13.2.0
   resolution: "@graphql-tools/utils@npm:13.2.0"
   dependencies:
@@ -7632,7 +7632,7 @@ __metadata:
     "@graphql-tools/stitch": "npm:^10.1.2"
     "@graphql-tools/stitching-directives": "npm:^4.0.4"
     "@graphql-tools/url-loader": "npm:^9.0.2"
-    "@graphql-tools/utils": "npm:^10.10.1"
+    "@graphql-tools/utils": "npm:^13"
     "@graphql-tools/wrap": "npm:^11.0.4"
     "@serverless/eslint-config": "npm:^5.1.0"
     "@vendia/serverless-express": "npm:^4.12.6"

@@ -9,7 +9,7 @@
     "@graphql-tools/stitch": "^10.1.2",
     "@graphql-tools/stitching-directives": "^4.0.4",
     "@graphql-tools/url-loader": "^9.0.2",
-    "@graphql-tools/utils": "^10.10.1",
+    "@graphql-tools/utils": "^13",
     "@graphql-tools/wrap": "^11.0.4",
     "@vendia/serverless-express": "^4.12.6",
     "@whatwg-node/fetch": "^0.10.13",
