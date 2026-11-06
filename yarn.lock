@@ -1557,17 +1557,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-tools/mock@npm:^9.1.1":
-  version: 9.1.1
-  resolution: "@graphql-tools/mock@npm:9.1.1"
+"@graphql-tools/mock@npm:^10":
+  version: 10.1.2
+  resolution: "@graphql-tools/mock@npm:10.1.2"
   dependencies:
-    "@graphql-tools/schema": "npm:^10.0.27"
-    "@graphql-tools/utils": "npm:^10.10.1"
+    "@graphql-tools/schema": "npm:^11.0.7"
+    "@graphql-tools/utils": "npm:^13.2.0"
+    "@whatwg-node/promise-helpers": "npm:^2.0.0"
     fast-json-stable-stringify: "npm:^2.1.0"
     tslib: "npm:^2.4.0"
   peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 10c0/1d881265538b06639a88990249e8bbadea90c40f14ef90b50c0bb1af3021a61ac1c303a7b40d677549fa0517fefeb11d118845e230755702611407f2da3e0c2b
+    graphql: ^16.0.0 || ^17.0.0
+  checksum: 10c0/b86d63961fee52b7b2a14c58f50cb0ea3fc1c45f8ea6cd8009e1bd702adf40f68c1e7c197fb7b901d7667d6b66ef9e25febd9ee9ef937a79e2f5d38ec6860d34
   languageName: node
   linkType: hard
 
@@ -7707,7 +7708,7 @@ __metadata:
     "@eslint/js": "npm:^10"
     "@graphql-tools/delegate": "npm:^12"
     "@graphql-tools/load": "npm:^9"
-    "@graphql-tools/mock": "npm:^9.1.1"
+    "@graphql-tools/mock": "npm:^10"
     "@graphql-tools/schema": "npm:^11"
     "@graphql-tools/stitch": "npm:^10.1.2"
     "@graphql-tools/stitching-directives": "npm:^4.0.4"
