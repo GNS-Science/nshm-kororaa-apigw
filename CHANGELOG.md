@@ -9,6 +9,10 @@
 - Upgrade serverless to v4
 - Upgrade to yarn2
 - Remove serverless-domain-manager
+- deps: configure yarn 7-day `npmMinimalAgeGate` with NSHM pre-approved packages
+- deps: major: eslint/@eslint/js 9→10, globals 16→17, dotenv 17→18, graphql-yoga 4→6, @graphql-tools/utils 10→13, schema 10→11, delegate 11→12, load 8→9, url-loader 9→10, mock 9→10
+- deps: minor (13 direct pkgs incl. graphql 16.14, express 5.3, jest 30.5, serverless 4.46; 8 transitive resolutions)
+- deps: patch (10 transitive resolutions incl. tar, picomatch, minimatch, brace-expansion)
 
 ## [0.2.0] - 2025-07
 
