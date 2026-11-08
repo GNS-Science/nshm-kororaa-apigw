@@ -1,0 +1,22 @@
+name: Setup Node and Yarn2
+description: Set up Node 22 with the GNS Science package registry, then install dependencies with the Yarn version pinned in package.json
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Node Setup
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        registry-url: https://npm.pkg.github.com/
+        scope: '@gns-science'
+
+    - name: Setup Yarn2 package manager, install and list dependencies
+      shell: bash
+      run: |
+        # Use the Yarn version pinned by package.json "packageManager" (via corepack)
+        # rather than `yarn set version berry`, which floats to the latest Yarn and
+        # rewrites the committed lockfile, breaking `yarn install --immutable`.
+        corepack enable
+        yarn install --immutable
+        yarn info
