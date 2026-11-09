@@ -12,6 +12,7 @@ on:
 jobs:
   call-test-workflow:
     uses: ./.github/workflows/ci-test.yaml
+    secrets: inherit
 
   call-deploy-workflow:
     needs: call-test-workflow
