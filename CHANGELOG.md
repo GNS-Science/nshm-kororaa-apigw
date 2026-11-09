@@ -17,6 +17,7 @@
 - deps: patch (10 transitive resolutions incl. tar, picomatch, minimatch, brace-expansion)
 
 ### Removed
+
 - serverless-domain-manager
 
 ## [0.2.0] - 2025-07
