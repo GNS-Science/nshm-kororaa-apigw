@@ -15,6 +15,8 @@
 - deps: major: eslint/@eslint/js 9→10, globals 16→17, dotenv 17→18, graphql-yoga 4→6, @graphql-tools/utils 10→13, schema 10→11, delegate 11→12, load 8→9, url-loader 9→10, mock 9→10
 - deps: minor (13 direct pkgs incl. graphql 16.14, express 5.3, jest 30.5, serverless 4.46; 8 transitive resolutions)
 - deps: patch (10 transitive resolutions incl. tar, picomatch, minimatch, brace-expansion)
+- Node 24: Lambda runtime nodejs24.x, CI and deploy on Node 24
+- deps: security: minimatch 9/10→11.0.1 via resolutions (GHSA-g3hv-75wg-m249)
 
 ### Removed
 
