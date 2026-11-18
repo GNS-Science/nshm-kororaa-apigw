@@ -19,7 +19,7 @@ jobs:
     uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
     with:
       python-version: 'None'
-      node-version: '22'
+      node-version: '24'
       node-pkg-manager: 'yarn2'
       environment: true
       smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about}'
