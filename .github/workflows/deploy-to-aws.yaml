@@ -16,11 +16,10 @@ jobs:
 
   call-deploy-workflow:
     needs: call-test-workflow
-    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws.yml@main
+    uses: GNS-Science/nshm-github-actions/.github/workflows/deploy-to-aws-uv.yml@main
     with:
       python-version: 'None'
       node-version: '24'
-      node-pkg-manager: 'yarn2'
       environment: true
       smoketest-query: 'query Query{KORORAA_about SOLVIS_about HAZARD_about}'
       smoketest-expected: '(?=.*HAZARD_about.*nshm_hazard_graphql_api)(?=.*KORORAA_about.*kororaa_graphql_api)(?=.*SOLVIS_about.*solvis_graphql_api).*'
