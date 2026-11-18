@@ -1,5 +1,5 @@
 name: Setup Node and Yarn2
-description: Set up Node 22 with the GNS Science package registry, then install dependencies with the Yarn version pinned in package.json
+description: Set up Node 24 with the GNS Science package registry, then install dependencies with the Yarn version pinned in package.json
 
 runs:
   using: 'composite'
@@ -7,7 +7,7 @@ runs:
     - name: Node Setup
       uses: actions/setup-node@v7
       with:
-        node-version: 22
+        node-version: 24
         registry-url: https://npm.pkg.github.com/
         scope: '@gns-science'
 

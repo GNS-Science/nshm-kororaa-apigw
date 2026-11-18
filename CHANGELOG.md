@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Node 22 → 24 (CI, serverless runtime `nodejs24.x`)
 - Update `solvis` schema to latest version 0.9.2
 - Update `toshi` schema to latest version 0.3.2
 - Update `kororaa` schema to latest version 0.10.0
